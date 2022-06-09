@@ -4,7 +4,7 @@
 {% block css %} {% endblock css %}
    
 {% block content %}
-<form method="POST" action="{% url 'onlineshop:user_login' %}">
+<form method="POST" action="{% url 'onlineapp:user_login' %}">
     {% csrf_token %}
     <div class="form-content my-3 p-3">
     <div class="container">
@@ -57,7 +57,7 @@
                     </div>
                     <div class="card-footer text-center">
                         <div class="small">
-                            <a href="{% url 'onlineshop:user_signup' %}">Don't have an account yet? Go to signup</a><br>
+                            <a href="{% url 'onlineapp:user_signup' %}">Don't have an account yet? Go to signup</a><br>
                         </div>
                     </div>
                 </div>
