@@ -17,9 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from onlineapp import views
 
-app_name = 'onlineapp'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('onlineapp.urls')),
-    path('', views.home, name="home"),
+    #path('',include('onlineapp.urls')),
+    path('', views.home,name='home'),
 ]
