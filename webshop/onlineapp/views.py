@@ -1,31 +1,44 @@
+from onlineapp.models import Product,ProductSize
+from django.http import HttpResponse,HttpResponseRedirect
+from django.shortcuts import render,redirect
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
+from onlineshopping.settings import MEDIA_ROOT,MEDIA_URL
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from itertools import product
 from unicodedata import name
-# Create your views here.
-from django.shortcuts import  render, redirect
 from .forms import UserForm
-from django.contrib.auth import login
 from django.contrib import messages
 from collections import UserString
-from django.shortcuts import render
 from onlineapp import forms
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
 from onlineapp import models
-from django.shortcuts import render
 from onlineapp.forms import UserForm
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 from onlineapp.forms import LoginForm
-from django.contrib.auth import authenticate,login, logout
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from onlineapp.models import Product
+
 
 # Create your views here.
 
 def home(request):
-  return render(request,'onlineapp/home.html')
+  products =Product.objects.all()
+  return render(request,'onlineapp/home.html',{'products':products})
+  
+#########################  Product Detail ###############################################################################################
 
+"""
+function to fetch product details to be viewed on product view page when user wants
+more information regading a particular product
+"""
+
+def product_view(request, pid):
+  product =Product.objects.filter(id=pid).first()
+  sizes = ProductSize.objects.filter(product=product)
+  return render(request, "onlineapp/product_view.html", {'product':product,'sizes':sizes , 'media_url': MEDIA_URL})
+  
+#######################################################################################################################################
+  
 #########################  User Account #############################################
 def user_signup(request):
       
@@ -85,3 +98,6 @@ def search(request):
      data=Product.objects.filter(name__icontains = text).order_by('-id')
      return render(request, 'onlineapp/search.html' , {'data':data})
 
+
+def cart_add(request, id):
+  return HttpResponse('done')

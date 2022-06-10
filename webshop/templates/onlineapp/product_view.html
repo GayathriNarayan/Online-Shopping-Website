@@ -1,0 +1,47 @@
+{% extends 'onlineapp/base.html' %}
+
+{% block title %} {{product.name}} {% endblock title %}
+
+{% block css %} {% endblock css %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <img src="{{ media_url }}{{product.image}}" alt="" style="width: 300px; height: 400px;">
+            </div>
+            <br>
+        </div>
+
+        <div class="col-md-8">
+            <h3>{{product.name}}</h3>
+            <p style="font-size: 25px;"><b>{{product.price}} kr</b></p>
+            <h5>Description:</h5>
+            <p>{{product.description}}</p>
+            <br>
+            {% if sizes %}
+            <h5>Size Available:
+                <select name="size_categories" class="filter-selectbox active" style="width: 50px; margin-left: 10px;">
+                    {% for size in sizes %}
+                    <option value=" {{size.size.code}}"> {{size.size.code}}</option>
+                    {% endfor %}
+                </select>
+            </h5>
+            {% endif %}
+            <br>
+            {% if user.is_authenticated %}
+            <a href="{% url 'onlineapp:cart_add' 1 %}" class=" btn btn-default add-to-cart"
+                style="width: 250px; border: 2px; border-radius:5px; align-self: center ; background-color: #FE980F;color:white;"><i
+                    class="fa fa-shopping-cart"></i>Add to cart</a>
+            {% else %}
+            <a href="{% url 'onlineapp:user_login' %}" class="btn btn-default add-to-cart"
+                style="width: 250px; border: 2px; border-radius:5px; align-self: center ; background-color: #FE980F;color:white;"><i
+                    class="fa fa-shopping-cart"></i>Add to cart</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
