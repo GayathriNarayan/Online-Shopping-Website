@@ -1,3 +1,4 @@
+from ast import Pass
 from onlineapp.models import Product,ProductSize
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render,redirect
@@ -99,3 +100,6 @@ def search(request):
      data=Product.objects.filter(name__icontains = text).order_by('-id')
      return render(request, 'onlineapp/search.html' , {'data':data})
 
+
+def cart_add(request, id):
+  return HttpResponse('done')

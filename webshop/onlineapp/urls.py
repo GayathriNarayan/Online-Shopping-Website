@@ -12,8 +12,8 @@ urlpatterns = [
     path('signup/', views.user_signup, name="user_signup"),
     path('login/', views.user_login, name="user_login"),
     path("logout/", views.user_logout, name="user_logout"),
+    path('add/<int:id>/', views.cart_add, name='cart_add'),
     path('product_view/<int:pid>/', views.product_view,name='product_view'),
-    
 ]
 
 if settings.DEBUG:
