@@ -1,4 +1,3 @@
-from ast import Pass
 from onlineapp.models import Product,ProductSize
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render,redirect
@@ -24,7 +23,6 @@ from django.contrib.auth.models import User
 
 def home(request):
   products =Product.objects.all()
-  print(products)
   return render(request,'onlineapp/home.html',{'products':products})
   
 #########################  Product Detail ###############################################################################################

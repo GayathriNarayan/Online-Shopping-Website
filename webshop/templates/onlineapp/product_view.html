@@ -1,6 +1,6 @@
 {% extends 'onlineapp/base.html' %}
 
-{% block title %} This is Product detail page {% endblock title %}
+{% block title %} {{product.name}} {% endblock title %}
 
 {% block css %} {% endblock css %}
 
@@ -21,6 +21,7 @@
             <h5>Description:</h5>
             <p>{{product.description}}</p>
             <br>
+            {% if sizes %}
             <h5>Size Available:
                 <select name="size_categories" class="filter-selectbox active" style="width: 50px; margin-left: 10px;">
                     {% for size in sizes %}
@@ -28,6 +29,7 @@
                     {% endfor %}
                 </select>
             </h5>
+            {% endif %}
             <br>
             {% if user.is_authenticated %}
             <a href="{% url 'onlineapp:cart_add' 1 %}" class=" btn btn-default add-to-cart"
