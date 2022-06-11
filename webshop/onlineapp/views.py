@@ -128,10 +128,15 @@ def changepass(request):
  ##### product list #####
  
 def home(request):
-  #category = ProductClassification.objects.all()
+  category = ProductClassification.objects.all()
   product = Product.objects.all()
+  categoryID = request.GET.get('category')
+  if categoryID:
+    product = Product.objects.filter(productclassification=categoryID)
+  else:
+    product = Product.objects.all()
   data_category = {
-   # 'category' : category,
+    'category' : category,
     'product' : product,
     'media_url': MEDIA_URL
   }

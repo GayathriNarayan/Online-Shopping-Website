@@ -78,11 +78,13 @@
 							<li><a href="{% url 'home' %}" class="active">Home</a></li>
 							<li><a href="about.html">About</a></li>
 							<li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
+								
 								<ul role="menu" class="sub-menu">
-									<li><a href="shop.html">Clothing</a></li>
-									<li><a href="product-details.html">Shoes</a></li>
-									<li><a href="checkout.html">Accersories</a></li>
+									{% for cat in category %}
+									<li><a href="/?category={{cat.id}}">{{cat.name}}</a></li>
+									{% endfor %}
 								</ul>
+								
 							</li>
 																					
 							{% if user.is_authenticated %}
