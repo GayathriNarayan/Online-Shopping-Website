@@ -12,14 +12,16 @@
                 Update Your Profile                
               </h3>
               {% for message in messages %}
-                <p class="{{ message.tags }}">
-                <em>{{user.first_name}}, </em>
+              <div class="alert alert-success alert-dismissible" role="alert">
+                "{{ message.tags }}"
+              
                 {% if 'safe' in message.tags %}
                   {{ message|safe }}
                 {% else %}
                   {{ message }}
                 {% endif %}
-                </p>
+              </div>
+                
               {% endfor %}
             </div>
             
@@ -33,6 +35,7 @@
                       {{user_profile_form}}
                    
                       <button class="btn btn-default" type="submit">Update Profile</button>
+            {% comment %} <a href="{% url 'onlineapp:changepass' %}">Don't have an account?  Click here</a> {% endcomment %}
                                             
                     </form>
                     

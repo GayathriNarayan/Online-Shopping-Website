@@ -84,11 +84,10 @@
 									<li><a href="checkout.html">Accersories</a></li>
 								</ul>
 							</li>
-						
-							<li><a href="myorders.html">My Orders</a></li>	
-																
+																					
 							{% if user.is_authenticated %}
-							  <li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>	
+							   <li><a href="profile">My Profile</a></li>
+							   <li><a href="myorders.html">My Orders</a></li>
 								<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
 							{% else %}
 								<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>

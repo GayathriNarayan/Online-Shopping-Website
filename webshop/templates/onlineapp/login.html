@@ -1,12 +1,58 @@
-{% extends 'onlineapp/base.html' %}
+{% extends 'onlineapp/base.html' %} {% block title %} Login {% endblock title %}
+{% block css %} {% endblock css %} {% block content %}
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <div class="signup-form">
+        <h3 class="font-weight-light my-1 text-center">Log In</h3>
 
-{% block title %} Login  {% endblock title %}
-{% block css %} {% endblock css %}
-   
-{% block content %}
+        {% csrf_token %} {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          {% for key, value in form.errors.items %} {{ value }} {% endfor %}
+        </div>
+        {% endif %}
+ 
+            <form method="POST">
+               <label class="medium mb-1">Username:</label>
+                {% csrf_token %} {{ form.username }}
+
+               <label class="medium mb-1">Password:</label>
+                 {{ form.password }}
+
+               <button name="login" class="btn btn-default" id="login">
+                 Log in
+               </button>
+            </form>
+
+          <a href="{% url 'onlineapp:user_signup' %}">Don't have an account?  Click here</a>
+       </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+<!--
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <div class="signup-form">
+
+
+
+
+      </div>
+    </div>
+  </div>
+</section> 
+
+
+
+
+
 <form method="POST" action="{% url 'onlineapp:user_login' %}">
     {% csrf_token %}
-    <div class="form-content my-3 p-3">
+<div class="form-content my-3 p-3">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5">
@@ -64,8 +110,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 </form>
 
-   {% endblock content %}
-   
+-->

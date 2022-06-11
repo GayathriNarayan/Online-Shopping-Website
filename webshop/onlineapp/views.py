@@ -8,19 +8,16 @@ from django.contrib.auth import login
 from django.contrib import messages
 from collections import UserString
 from django.shortcuts import render
-from onlineapp import forms
+from onlineapp import forms ,models
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from onlineapp import models
-from django.shortcuts import render
-from onlineapp.forms import UserForm
+from onlineapp.forms import UserForm, LoginForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from onlineapp.forms import LoginForm
 from django.contrib.auth import authenticate,login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from onlineapp.models import Product
+from onlineapp.models import Product, ProductClassification
 from django.contrib.auth.forms import PasswordChangeForm
 from onlineapp.forms import UserForm,LoginForm,EditUserProfileForm
 
@@ -101,7 +98,7 @@ def edit_profile(request):
     if request.method == "POST":
       usr = EditUserProfileForm(request.POST, instance=request.user)
       if usr.is_valid():
-        messages.success(request, 'your profile has been updated !')
+        messages.success(request, 'profile updated !')
         usr.save()
     else:
      usr = EditUserProfileForm(instance=request.user)
@@ -114,7 +111,7 @@ def edit_profile(request):
     return HttpResponseRedirect('onlineapp/login')
 
   #----Change Password:
-def pass_change(request):
+def changepass(request):
  if request.method == "POST":
    pwd = PasswordChangeForm(user=request.user, data=request.POST)
    print
@@ -131,10 +128,10 @@ def pass_change(request):
  ##### product list #####
  
 def home(request):
-  # category = Category.objects.all()
+  #category = ProductClassification.objects.all()
   product = Product.objects.all()
   data_category = {
-    # 'category' : category,
+   # 'category' : category,
     'product' : product,
     'media_url': MEDIA_URL
   }

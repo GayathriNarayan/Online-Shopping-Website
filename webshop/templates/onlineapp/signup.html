@@ -1,10 +1,47 @@
-{% extends 'onlineapp/base.html' %}
+{% extends 'onlineapp/base.html' %} {% block title %} Sign Up 
+{% endblock title %} {% block css %} {% endblock css %} {% block content %}
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-1">
+        <div class="signup-form">
+          <h3 class="font-weight-light my-1 text-center">Register</h3>
+          <br />
+          {% if registered %}
 
-{% block title %} Sign Up{% endblock title %}
-{% block css %} {% endblock css %}
+          <h2>Thank you for registration</h2>
+
+          {% else %}
+          <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %} {% comment %}
+            <div class="form-row">
+              {% endcomment %} {{ user_form.as_p }} {% comment %}
+              <div class="form-group">{{ user_form.as_p }}</div>
+              {% endcomment %}
+
+              <button class="btn btn-default" type="submit">Signup</button>
+              {% comment %}
+            </div>
+            {% endcomment %}
+          </form>
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+<!--
+
+
+  
    
-{% block content %}
-<div class="form-content my-3 p-3">
+   
+   
+   <div class="form-content my-3 p-3">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-7">
@@ -38,6 +75,7 @@
         </div>
     </div>
 </div>
-
-   {% endblock content %}
    
+       
+       
+        -->
