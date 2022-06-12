@@ -1,4 +1,5 @@
 from operator import truediv
+from unicodedata import name
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -114,3 +115,12 @@ class OrderDetail(models.Model):
                                         self.product.name,
                                         self.qty,
                                         self.price)
+
+#-----Contact Us-----
+class Contactus(models.Model):
+    name = models.CharField(max_length=150)
+    email = models.EmailField(150)
+    subject = models.CharField(max_length=150)
+    message = models.TextField()
+    def __str__(self):
+        return self.email

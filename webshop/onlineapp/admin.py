@@ -1,7 +1,7 @@
 from django.contrib import admin
 from onlineapp.models import CustomerInfo
 from onlineapp.models import ProductClassification,Product,Size,ProductSize
-from onlineapp.models import Order,OrderDetail
+from onlineapp.models import Order,OrderDetail, Contactus
 
 #Customer details
 admin.site.register(CustomerInfo)
@@ -15,3 +15,6 @@ admin.site.register(ProductSize)
 #Order and Order details
 admin.site.register(Order)
 admin.site.register(OrderDetail)
+
+#--- contact us
+admin.site.register(Contactus)

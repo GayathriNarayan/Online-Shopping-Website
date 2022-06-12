@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from onlineapp.models import Product, ProductClassification
+from onlineapp.models import Product, ProductClassification, Contactus
 from django.contrib.auth.forms import PasswordChangeForm
 from onlineapp.forms import UserForm,LoginForm,EditUserProfileForm
 
@@ -145,5 +145,13 @@ def home(request):
 
   #---------- About-----------#
 
-def about(request):
+def contactus(request):
+  if request.method == 'POST':
+    contact = Contactus(
+      name = request.POST.get('name'),
+      email = request.POST.get('email'),
+      subject = request.POST.get('subject'),
+      message = request.POST.get('message'),
+    )
+    contact.save()
   return render(request, 'onlineapp/about.html')
