@@ -1,0 +1,134 @@
+{% extends 'onlineapp/base.html' %}
+
+{% block title %} This is home page {% endblock title %}
+{% block css %} {% endblock css %}
+
+{% block content %}
+
+<div id="contact-page" class="container">
+  <div class="bg">
+    <!--/aboutus-->
+    <div class="row">
+      <div class="col-sm-12">
+        <div>
+
+          <img src="\static\images\about.webp" alt="" width="1130" height="350" /><br /><br />
+          <h2 class="title ">About <strong>us</strong></h2>
+
+          <p>G3-Sports Group consists of the concepts G3-Sports and G3-Sports Outlet, which together have about 180
+            physical stores and each e-commerce. Together they form Sweden's largest sports and sports fashion chain.
+            Stockholm is home to the G3-Sports Group's head office, which is called the “service office”, as it aims to
+            support all stores and customer service. The company is owned by the Group-3 Lexicon (Python/IT Security)
+            2022 batch and operates in Sweden, Finland and Norway.</p>
+          <p>G3-Sports was the original concept that was launched January 2022 and currently also contains a number
+            of specialty stores such as G3-Sports Ski and G3-Sports Plus. G3-Sports Outlet offers lower prices than the
+            market in general thanks to larger batch purchases..</p>
+          <p>Since 2022, G3-Sports Sports Camp has been organized for children and young people. G3-Sports Sports Camp
+            has its own organization and is run as an SVB company (special dividend limitation), which means that
+            G3-Sports Group reinvests and distributes all profits to participating associations. Approximately 7,000
+            children are activated annually during the camp weeks.</p>
+          <p>With a vision of activating the world, G3-Sports wants to inspire an active life for everyone.</p>
+          <p>Join the movement!</p>
+
+        </div>
+      </div>
+    </div>
+
+    <!--/#aboutus-->
+    <div>
+      <br><br><br><br>
+    </div>
+
+    <!--contact us-->
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="contact-form">
+          <h2 class="title ">Get In Touch</h2>
+          <div class="status alert alert-success" style="display: none"></div>
+          <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
+            {% csrf_token %}
+            <div class="form-group col-md-6">
+              <input type="text" name="name" class="form-control" required="required" placeholder="Name" />
+            </div>
+            <div class="form-group col-md-6">
+              <input type="email" name="email" class="form-control" required="required" placeholder="Email" />
+            </div>
+            <div class="form-group col-md-12">
+              <input type="text" name="subject" class="form-control" required="required" placeholder="Subject" />
+            </div>
+            <div class="form-group col-md-12">
+              <textarea name="message" id="message" required="required" class="form-control" rows="8"
+                placeholder="Your Message Here"></textarea>
+            </div>
+            <div class="form-group col-md-12">
+              <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="contact-info">
+          <h2 class="title ">Contact Info</h2>
+          <address>
+            <p>E-Group3 Inc.</p>
+            <p>Phone: +46 7200001</p>
+            <p>Email: info@e-shopper.com</p>
+            <p>55 463, Stockholm Sweden.</p>
+
+
+          </address>
+          <div class="social-networks">
+            <h2 class="title text-left">Social Networking</h2>
+            <ul>
+              <li>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-google-plus"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-youtube"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/#contact-page-->
+
+<!--Footer-->
+<footer id="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="address">
+            <img src="static/images/home/map.png" alt="" />
+            <p>Stockholm Sweden</p>
+          </div>
+
+        </div>
+        <div class="col-md-4 pull-right">
+          <div class="single-widget">
+            <h2>subscribe</h2>
+            <form action="#" class="searchform ">
+              <input type="text" placeholder="Your email address" />
+              <button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
+              <p>Get the most recent updates from <br />our site and be updated your self...</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!--/#Footer-->
+
+
+
+{% endblock content %}

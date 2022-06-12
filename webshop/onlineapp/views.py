@@ -85,12 +85,12 @@ def search(request):
      data=Product.objects.filter(name__icontains = text).order_by('-id')
      return render(request, 'onlineapp/search.html' , {'data':data})
 
-######## Profile #########
+#---------- Profile-----------#
 
 def profile(request):
     return render(request, 'onlineapp/profile.html',{'media_url': MEDIA_URL})
 
-#edit profile----
+#---------- Edit Profile-----------#
 
 def edit_profile(request):
 
@@ -110,7 +110,8 @@ def edit_profile(request):
 
     return HttpResponseRedirect('onlineapp/login')
 
-  #----Change Password:
+#---------- change password-----------#
+
 def changepass(request):
  if request.method == "POST":
    pwd = PasswordChangeForm(user=request.user, data=request.POST)
@@ -125,7 +126,7 @@ def changepass(request):
     
  return render(request, 'onlineapp/changepass.html', {'form':pwd})
 
- ##### product list #####
+#---------- Product List-----------#
  
 def home(request):
   category = ProductClassification.objects.all()
@@ -141,3 +142,8 @@ def home(request):
     'media_url': MEDIA_URL
   }
   return render(request,'onlineapp/home.html', data_category)
+
+  #---------- About-----------#
+
+def about(request):
+  return render(request, 'onlineapp/about.html')
