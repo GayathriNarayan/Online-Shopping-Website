@@ -42,7 +42,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)    
     productclassification = models.ForeignKey(ProductClassification, on_delete=models.CASCADE)
-    gender = models.IntegerField(choices=GENDER_CHOICES,blank=True)
+    gender = models.IntegerField(choices=GENDER_CHOICES,blank=True,null=True)
     price =models.DecimalField(max_digits=10,
                                 decimal_places=2,default=0)
     image=models.ImageField(upload_to='product_images',blank=True,default='default_product.jpg')                        
@@ -106,6 +106,7 @@ class OrderDetail(models.Model):
     qty=models.IntegerField(default=0)
     price =models.DecimalField(max_digits=10,
                                 decimal_places=2,default=0)
+    image=models.CharField(max_length=255,null=True,blank=True)  
     
     def __str__(self):
        return '{} {} {} {} {} {}'.format(self.order.order_reference, 

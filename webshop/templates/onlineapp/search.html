@@ -1,0 +1,33 @@
+{% extends 'onlineapp/base.html' %}
+
+{% block title %} This is search page {% endblock title %}
+{% block css %} {% endblock css %}
+   
+{% block content %}
+
+    	
+    <div class="col-sm-9 padding-right">
+        <div class="features_items"><!--features_items-->
+            <h2 class="title text-center">Search Results  for {{ request.GET.prosearch}}</h2>
+            {% for product in data %}
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                            <div class="productinfo text-center">
+                                <h2>Product Name:  {{ product.name }}</h2>
+                                <p>Product Description: {{ product.price }}</p>
+                                <p>{{ product.description }}</p>
+                                <img src={{media_url}}{{product.image}}  alt=""  width="200px"/>
+                                <br>
+                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+            
+    {% endblock content %}
