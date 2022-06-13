@@ -4,6 +4,7 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserChangeForm
 
 
 class UserForm(forms.ModelForm):
@@ -34,3 +35,12 @@ class  LoginForm(forms.ModelForm):
         password = self.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
         return user
+
+
+#----- Profile Edit ---- Imran ---------- 
+class EditUserProfileForm(UserChangeForm):
+      password = None
+      class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        labels = {'email': 'Email'}

@@ -1,43 +1,35 @@
-{% extends 'onlineapp/base.html' %}
+{% extends 'onlineapp/base.html' %} {% block title %} Sign Up 
+{% endblock title %} {% block css %} {% endblock css %} {% block content %}
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-1">
+        <div class="signup-form">
+          <h3 class="font-weight-light my-1 text-center">Register</h3>
+          <br />
+          {% if registered %}
 
-{% block title %} Sign Up{% endblock title %}
-{% block css %} {% endblock css %}
-   
-{% block content %}
-<div class="form-content my-3 p-3">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-7">
-                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
-                    {% if registered %}
-                    <div class="card-header justify-content-center">                        
-                        <h1>Thank you for Sign Up</h1>
-                    </div>
-                    {% else %}
-                        <div class="card-header justify-content-center">
-                            <h1 class="font-weight-light my-4 text-center">Sign up</h1>
-                        </div>
-                        <div class="card-body">
-                            <form enctype="multipart/form-data" method="POST">
-                                {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ user_form.as_p }}
+          <h2>Thank you for registration</h2>
 
-										</div>
-                                    </div>
-                                    <input class="col-md-12 btn btn-dark" type="submit" value="Signup">
-                                </div>
-                            </form>
-                        </div>
-                        {% endif %}                        
-                    </div>
-                </div>
+          {% else %}
+          <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %} {% comment %}
+            <div class="form-row">
+              {% endcomment %} {{ user_form.as_p }} {% comment %}
+              <div class="form-group">{{ user_form.as_p }}</div>
+              {% endcomment %}
+
+              <button class="btn btn-default" type="submit">Signup</button>
+              {% comment %}
             </div>
-        </div>
-    </div>
-</div>
+            {% endcomment %}
+          </form>
 
-   {% endblock content %}
-   
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

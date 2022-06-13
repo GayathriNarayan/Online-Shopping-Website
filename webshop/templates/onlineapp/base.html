@@ -20,9 +20,12 @@
     <script src="js/respond.min.js"></script>
     <![endif]-->
 	<link rel="shortcut icon" href="{% static 'images/ico/favicon.ico' %}">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144-precomposed.png' %}">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114-precomposed.png' %}">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72-precomposed.png' %}">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144"
+		href="{% static 'images/ico/apple-touch-icon-144-precomposed.png' %}">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114"
+		href="{% static 'images/ico/apple-touch-icon-114-precomposed.png' %}">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72"
+		href="{% static 'images/ico/apple-touch-icon-72-precomposed.png' %}">
 	<link rel="apple-touch-icon-precomposed" href="{% static 'images/ico/apple-touch-icon-57-precomposed.png' %}">
 	{% block script %} {% endblock script %}
 	{% block css %} {% endblock css %}
@@ -44,11 +47,12 @@
 				<div class="col-sm-8">
 					<div class="shop-menu pull-right">
 						<ul class="nav navbar-nav">
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
+							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
 							<div class="col-sm-4">
 								<div class="search_box">
-									<input style="width:400px" type="text" placeholder="Search">
-									
+									<form action="/search" method="get"></form>
+									<input style="width:400px" type="text" placeholder="Search" name="prosearch">
+
 								</div>
 							</div>
 						</ul>
@@ -76,7 +80,7 @@
 					<div class="mainmenu pull-left">
 						<ul class="nav navbar-nav collapse navbar-collapse">
 							<li><a href="{% url 'home' %}" class="active">Home</a></li>
-							<li><a href="about.html">About</a></li>
+							<li><a href="about">About</a></li>
 							<li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
 									<li><a href="shop.html">Clothing</a></li>
@@ -84,16 +88,15 @@
 									<li><a href="checkout.html">Accersories</a></li>
 								</ul>
 							</li>
-							<li><a href="myprofile.html">My Profile</a></li>
-							<li><a href="myorders.html">My Orders</a></li>														
 							{% if user.is_authenticated %}
+								<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
+								<li><a href="myorders.html">My Orders</a></li>
 								<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
 							{% else %}
-								<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>
-								<li><a href="{% url 'onlineapp:user_signup' %}">Sign up</a></li>
+							<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>
+							<li><a href="{% url 'onlineapp:user_signup' %}">Sign up</a></li>
 							{% endif %}
 							<!--<li><a href="login.html">Admin</a></li>-->
-						
 						</ul>
 					</div>
 				</div>
@@ -107,11 +110,9 @@
 
 	{% block content %}
 
-
-
 	{% endblock content %}
 
-	<div class="footer-bottom">
+	<div class="footer-bottom fixed-bottom" >
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">

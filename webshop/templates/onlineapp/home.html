@@ -1,8 +1,5 @@
-
-{% extends 'onlineapp/base.html' %}
-
-{% block title %} This is home page {% endblock title %}
-{% block css %} {% endblock css %}
+{% extends 'onlineapp/base.html' %} {% block title %} Home
+{% endblock title %} {% block css %} {% endblock css %} 
 
 {% block content %}
 <section id="slider">
@@ -21,8 +18,8 @@
                         <div class="item active">
                             <div class="col-sm-6">
                                 <h1><span>G3</span>-SPORTS</h1>
-                                <h2>Buy The BEST </h2>
-                                <p>One stop solution for all your online Shopping. </p>
+                                <h2>Buy The BEST</h2>
+                                <p>One stop solution for all your online Shopping.</p>
                                 <!-- <button type="button" class="btn btn-default get">Get it now</button> -->
                             </div>
                             <div class="col-sm-6">
@@ -34,7 +31,7 @@
                             <div class="col-sm-6">
                                 <h1><span>G3</span>-SPORTS</h1>
                                 <h2>100% Authentic Products</h2>
-                                <p>Every product you buy from G3 sports is a reliable. </p>
+                                <p>Every product you buy from G3 sports is a reliable.</p>
                                 <!-- <button type="button" class="btn btn-default get">Get it now</button> -->
                             </div>
                             <div class="col-sm-6">
@@ -47,7 +44,7 @@
                             <div class="col-sm-6">
                                 <h1><span>G3</span>-SPORTS</h1>
                                 <h2>Group 3</h2>
-                                <p>brings an amazing online shopping portal for you! </p>
+                                <p>brings an amazing online shopping portal for you!</p>
                                 <!-- <button type="button" class="btn btn-default get">Get it now</button> -->
                             </div>
                             <div class="col-sm-6">
@@ -55,7 +52,6 @@
                                 <!-- <img src="images/home/pricing.png" class="pricing" alt="" /> -->
                             </div>
                         </div>
-
                     </div>
                     <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
                         <i class="fa fa-angle-left"></i>
@@ -64,13 +60,11 @@
                         <i class="fa fa-angle-right"></i>
                     </a>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
 <!--/slider-->
-
 
 <!--features_items-->
 <section>
@@ -79,14 +73,16 @@
             <div class="col-sm-12 padding-right">
                 <div class="features_items">
                     <h2 class="title text-center">Features Items</h2>
+                    {% for prod in product %}
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <img src="images/home/product1.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="{%url 'onlineapp:product_view' product.id %}" class="btn btn-default add-to-cart">View this product</a>
+                                    <img src="{{ media_url }}{{ prod.image }}" alt="" height = "300"/>
+                                    <h2>{{prod.price}}Kr</h2>
+                                    <p><p>{{prod.name}}</p></p>
+                                    <a href="{% url 'onlineapp:product_view' 1 %}"
+                                        class="btn btn-default add-to-cart">View this product</a>
                                 </div>
                                 <!--<div class="product-overlay">
                                     <div class="overlay-content">
@@ -99,112 +95,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/product2.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                </div>
-                                <!--<div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/product3.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                </div>
-                                <!--<div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/product4.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                </div>
-                                <!--<div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>-->
-                                <img src="images/home/new.png" class="new" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/product5.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                </div>
-                                <!--<div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                        
-                                    </div>
-                                </div>-->
-                                <img src="images/home/sale.png" class="new" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/product6.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                </div>
-                                <!--<div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart">View this product</a>
-                                    </div>
-                                </div>-->
-                            </div>
-
-                        </div>
-                    </div>
-
+                    {% endfor %}
+                 
                 </div>
                 <!--features_items-->
-
             </div>
         </div>
     </div>
@@ -220,22 +114,25 @@
                         <img src="static/images/home/map.png" alt="" />
                         <p>Stockholm Sweden</p>
                     </div>
-
                 </div>
                 <div class="col-md-4 pull-right">
                     <div class="single-widget">
                         <h2>subscribe</h2>
-                        <form action="#" class="searchform ">
+                        <form action="#" class="searchform">
                             <input type="text" placeholder="Your email address" />
-                            <button type="submit" class="btn btn-default"><i
-                                    class="fa fa-arrow-circle-o-right"></i></button>
-                            <p>Get the most recent updates from <br />our site and be updated your self...</p>
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-arrow-circle-o-right"></i>
+                            </button>
+                            <p>
+                                Get the most recent updates from <br />our site and be updated
+                                your self...
+                            </p>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</footer>
 
     {% endblock content %}
-
