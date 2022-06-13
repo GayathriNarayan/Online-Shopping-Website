@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('onlineapp/',include('onlineapp.urls')),
     path('', views.home , name='home'),
+    path('search/', views.search, name="search"),
     
 ]
 
