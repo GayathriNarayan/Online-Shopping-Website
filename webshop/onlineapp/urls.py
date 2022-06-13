@@ -14,7 +14,10 @@ urlpatterns = [
     path("logout/", views.user_logout, name="user_logout"),
     path('add/<int:id>/', views.cart_add, name='cart_add'),
     path('product_view/<int:pid>/', views.product_view,name='product_view'),
-]
+    path('profile/', views.profile, name="profile"),
+    path('about/', views.about, name="about"), 
+    
+   ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

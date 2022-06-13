@@ -1,0 +1,46 @@
+{% extends 'onlineapp/base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+
+<section id="form" style="margin-left:30%; margin-top:3%;">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <div class="signup-form">
+            <div>
+                {% comment %} <img src="{{ media_url }}{{ user.userprofileinfo.profile_pic }}" alt="Not displayed" height='100' /> {% endcomment %}
+                <h3 class="font-weight-light my-4 text-center">
+                Update Your Profile                
+              </h3>
+              {% for message in messages %}
+              <div class="alert alert-success alert-dismissible" role="alert">
+                "{{ message.tags }}"
+              
+                {% if 'safe' in message.tags %}
+                  {{ message|safe }}
+                {% else %}
+                  {{ message }}
+                {% endif %}
+              </div>
+                
+              {% endfor %}
+            </div>
+            
+                    {% comment %} {% endcomment %}
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      {{form.as_p}}
+                      {% comment %} {% for fm in form %} {{fm.label_tag}} {{fm}}
+                      {{fm.erros|striptags}} <br /><br />
+                      {% endfor %} {% endcomment %}
+                      {{user_profile_form}}
+                   
+                      <button class="btn btn-default" type="submit">Update Profile</button>
+           
+                                            
+                    </form>
+                    
+                 </div>
+                </div>
+              </div>
+            </section>
+{% endblock %}
