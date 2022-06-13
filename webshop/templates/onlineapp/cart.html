@@ -46,62 +46,72 @@
 <section style="margin-left: 20%; margin-top: 3%">
     <div class="container-fluid row">
         <div class="col-lg-8">
+            {% if request.session.cart %}
+                <div class="box-element">
+                    <a href="/" class="btn btn-outline-dark">&#x2190 Continue Shopping</a>
+                    <br><br>
+                    <table class="table">
+                        <tr>                            
+                            <th><a href="{% url 'onlineapp:checkout' %}" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;">Checkout</a>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+                <div class="box-element">
+                    <div class="cart-row">
+                        <div style="flex: 2;"><strong>Product</strong></div>
+                        <div style="flex: 2;"><strong>Item</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Price</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Quantity</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Total</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Delete</strong></div>
+                    </div>
+                {% for key,value in request.session.cart.items %}
+                    <div class="cart-row">
+                        <div style="flex: 2;"><img class="row-image img-thumbnail" src="{{ value.image }}" alt=""></div>
+                        <div style="flex: 2;">{{value.name}}</div>
+                        <div style="flex: 1; text-align: right;">{{value.price}} SEK</div>
+                        <div style="flex: 1; text-align: right;">
+                            <p class="quantity">{{value.quantity}}</p>
+                            <div class="quantity text-align: right;">
+                                <a href="{% url 'onlineapp:item_increment' value.product_id %}"><img src="{% static 'images/cart/increase.png' %}" class="chg-quantity" alt=""></a>
+                                <a href="{% url 'onlineapp:item_decrement' value.product_id %}"><img src="{% static 'images/cart/decrease.png' %}" class="chg-quantity" alt=""></a>
+                            </div>
+                        </div>
+                        <div style="flex: 1; text-align: right;">{{value.price|multiply:value.quantity}} SEK</div>
+                        <div style="flex: 1; text-align: right;"><a href="{% url 'onlineapp:item_clear' value.product_id %}">Delete</a></div>                    
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <div class="box-element">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                <h5>Items: <strong>{{request.session.cart|length}}</strong></h5>
+                            </th>
+                            <th>
+                                <h5>Total: <strong>{{total_cart_value}} SEK</strong></h5>
+                            </th>
+                            <th><a href="{% url 'onlineapp:checkout' %}" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;">Checkout</a>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            {% else %}
             <div class="box-element">
                 <a href="/" class="btn btn-outline-dark">&#x2190 Continue Shopping</a>
                 <br><br>
                 <table class="table">
                     <tr>
-                        <th>
-                            <h5>Items: <strong>{{request.session.cart|length}}</strong></h5>
-                        </th>
-                        <th>
-                            <h5>Total: <strong>{{order.get_cart_total}} Kr</strong></h5>
-                        </th>
-                        <th><a href="{% url 'checkout' %}" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;">Checkout</a>
-                        </th>
+                        <td class="text-center">
+                            <h3><strong>No items in your cart.</strong></h3>
+                        </td>
                     </tr>
                 </table>
             </div>
-            <br>
-            <div class="box-element">
-                <div class="cart-row">
-                    <div style="flex: 2;"><strong>Product</strong></div>
-                    <div style="flex: 2;"><strong>Item</strong></div>
-                    <div style="flex: 1;"><strong>Price</strong></div>
-                    <div style="flex: 1;"><strong>Quantity</strong></div>
-                    <div style="flex: 1;"><strong>Total</strong></div>
-                </div>
-            {% for key,value in request.session.cart.items %}
-                <div class="cart-row">
-                    <div style="flex: 2;"><img class="row-image" src="{{ value.image }}" alt=""></div>
-                    <div style="flex: 2;">{{value.name}}</div>
-                    <div style="flex: 1;">{{value.price}} Kr</div>
-                    <div style="flex: 1;">
-                    <p class="quantity">{{value.quantity}}</p>
-                    <div class="quantity">
-                        <a href="{% url 'item_increment' value.product_id %}"><img src="{% static 'images/cart/increase.png' %}" class="chg-quantity" alt=""></a>
-                        <a href="{% url 'item_decrement' value.product_id %}"><img src="{% static 'images/cart/decrease.png' %}" class="chg-quantity" alt=""></a>
-                    </div>
-                    </div>
-                    <div style="flex: 1;">{{value.price|multiply:value.quantity}} kr</div>
-                </div>
-                {% endfor %}
-            </div>
-            <br>
-            <div class="box-element">
-                <table class="table">
-                    <tr>
-                        <th>
-                            <h5>Items: <strong>{{request.session.cart|length}}</strong></h5>
-                        </th>
-                        <th>
-                            <h5>Total: <strong>{{order.get_cart_total}} Kr</strong></h5>
-                        </th>
-                        <th><a href="{% url 'checkout' %}" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;">Checkout</a>
-                        </th>
-                    </tr>
-                </table>
-            </div>
+            {% endif %}
         </div>
     </div>
 </section>

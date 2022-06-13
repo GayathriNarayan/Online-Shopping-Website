@@ -2,7 +2,8 @@ from operator import truediv
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
-
+from django.db.models import Sum	
+from django.db.models import F
 class CustomerInfo(models.Model):
     '''
     Customer information
@@ -90,6 +91,10 @@ class Order(models.Model):
     address=models.CharField(max_length=255)
     payment_provider=models.CharField(max_length=255)
 
+    def get_total_value(self):
+        total_value=OrderDetail.objects.filter(order=self.pk).aggregate(total_value=Sum(F('qty') * F('price')))['total_value']
+        return "{:.2f}".format(total_value)
+
     def __str__(self):
       return '{} {} {}'.format(self.order_reference, 
                                         self.order_date,
@@ -108,6 +113,10 @@ class OrderDetail(models.Model):
                                 decimal_places=2,default=0)
     image=models.CharField(max_length=255,null=True,blank=True)  
     
+    def get_total_value(self):
+        total_value=OrderDetail.objects.filter(order=self.order.pk).aggregate(total_value=Sum(F('qty') * F('price')))['total_value']
+        return "{:.2f}".format(total_value)
+
     def __str__(self):
        return '{} {} {} {} {} {}'.format(self.order.order_reference, 
                                         self.order.order_date,

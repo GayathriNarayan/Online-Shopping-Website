@@ -104,58 +104,68 @@ def search(request):
      return render(request, 'onlineapp/search.html' , {'data':data})
 
 
-@login_required(login_url="/users/login")
+@login_required(login_url="/onlineapp/login")
 def cart_add(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     cart.add(product=product)
-    return redirect("/")
+    return redirect("onlineapp:product_view",pid=id)
 
 
-@login_required(login_url="/users/login")
+@login_required(login_url="/onlineapp/login")
 def item_clear(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     cart.remove(product)
-    return redirect("cart_detail")
+    return redirect("onlineapp:cart_detail")
 
 
-@login_required(login_url="/users/login")
+@login_required(login_url="/onlineapp/login")
 def item_increment(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     cart.add(product=product)
-    return redirect("cart_detail")
+    return redirect("onlineapp:cart_detail")
 
 
-@login_required(login_url="/users/login")
+@login_required(login_url="/onlineapp/login")
 def item_decrement(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     try:
       cart.decrement(product=product)
     finally:      
-      return redirect("cart_detail")
+      return redirect("onlineapp:cart_detail")
 
 
-@login_required(login_url="/users/login")
+@login_required(login_url="/onlineapp/login")
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
-    return redirect("cart_detail")
+    return redirect("onlineapp:cart_detail")
 
 
-@login_required(login_url="/users/login")
+@login_required(login_url="/onlineapp/login")
 def cart_detail(request):
-    return render(request, 'onlineapp/cart.html')  
+    total=0
+    data=request.session.values()
+    d=list(data)[3]
+    l=[*d.values()]
+    for i in l:
+      total=total+(float(i['quantity'])*float(i['price']))
 
+    context={'total_cart_value':total}
+    return render(request, 'onlineapp/cart.html',context)  
+
+@login_required(login_url="/onlineapp/login")
 def checkout(request):
   data = Cart(request)
   customer=request.user
   address='11'
   order=Order.objects.create(customer=customer,
                       address=address)
-  order.order_reference="ORD0000"+str(order.id)
+  id=order.id
+  order.order_reference="ORD"+str(id).zfill(5)
   order.save()
   
   total_value=0
@@ -180,27 +190,27 @@ def checkout(request):
       'item_name': order.order_reference,
       'invoice': order.order_reference,
       'currency_code': 'SEK',
-      'notify_url': 'http://{}{}'.format(host,reverse('paypal-ipn')),
-      'return_url': 'http://{}{}'.format(host,reverse('payment_done',args=(str(order.id),))),
-      'cancel_return': 'http://{}{}'.format(host,reverse('payment_cancelled',args=(str(order.id),))),
+      'notify_url': 'http://{}{}'.format(host,reverse('onlineapp:paypal-ipn')),
+      'return_url': 'http://{}{}'.format(host,reverse('onlineapp:payment_done',args=(str(order.id),))),
+      'cancel_return': 'http://{}{}'.format(host,reverse('onlineapp:payment_cancelled',args=(str(order.id),))),
   }
   form = PayPalPaymentsForm(initial=paypal_dict)
   return render(request, 'onlineapp/payment_process.html',{'form':form})
   
 
-@login_required
+@login_required(login_url="/onlineapp/login")
 def user_orders(request):
 	orders=Order.objects.filter(customer=request.user).order_by('-id')
 	return render(request, 'onlineapp/myorders.html',{'orders':orders})
 
-@login_required
+@login_required(login_url="/onlineapp/login")
 def user_order_detail(request,id):
   order=Order.objects.get(pk=id)
   orderdetail=OrderDetail.objects.filter(order=order).order_by('-id')
   total_value =OrderDetail.objects.filter(order=order).aggregate(total_value=Sum(F('qty') * F('price')))['total_value']
   context={'orderdetail':orderdetail,
             'media_url':MEDIA_URL,
-            'total_value':total_value}
+            'total_value':order.get_total_value}
   return render(request, 'onlineapp/orderdetail.html',context)
 
 @csrf_exempt

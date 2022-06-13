@@ -11,15 +11,17 @@
 				<table class="table-bordered table">
 					<thead>
 						<tr>
-							<th>Order ref.</th>
-							<th>Date</th>
+							<th class="text-center">Order ref.</th>
+							<th class="text-center">Date</th>
+							<th class="text-right">Total Value</th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for order in orders %}
 						<tr>
-							<td><a href="{% url 'user_order_detail' order.id %}" class="btn btn-sm btn-dark">{{order.order_reference}}</a></td>
-                            <td>{{order.order_date}}</td>
+							<td class="text-center"><a href="{% url 'onlineapp:user_order_detail' order.id %}" class="btn btn-sm btn-dark">{{order.order_reference}}</a></td>
+                            <td class="text-center">{{order.order_date}}</td>
+							<td class="text-right">{{order.get_total_value}}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
