@@ -101,3 +101,16 @@ def search(request):
 
 def cart_add(request, id):
   return HttpResponse('done')
+
+
+ #-----product list  -----Imran-----
+ 
+def home(request):
+  #category = ProductClassification.objects.all()
+  product = Product.objects.all()
+  data_category = {
+   # 'category' : category,
+    'product' : product,
+    'media_url': MEDIA_URL
+  }
+  return render(request,'onlineapp/home.html', data_category)
