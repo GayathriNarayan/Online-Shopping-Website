@@ -81,7 +81,7 @@
                                     <img src="{{ media_url }}{{ prod.image }}" alt="" height = "300"/>
                                     <h2>{{prod.price}}Kr</h2>
                                     <p><p>{{prod.name}}</p></p>
-                                    <a href="{% url 'onlineapp:product_view' product.id %}"
+                                    <a href="{% url 'onlineapp:product_view' prod.id%}"
                                         class="btn btn-default add-to-cart">View this product</a>
                                 </div>
                                 <!--<div class="product-overlay">
