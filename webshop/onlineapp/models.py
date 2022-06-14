@@ -95,6 +95,14 @@ class Order(models.Model):
         total_value=OrderDetail.objects.filter(order=self.pk).aggregate(total_value=Sum(F('qty') * F('price')))['total_value']
         return "{:.2f}".format(total_value)
 
+    def payment_status(self):
+        if self.payment_provider:
+            payment_status="Success"
+        else:
+            payment_status="Failed"
+
+        return payment_status
+
     def __str__(self):
       return '{} {} {}'.format(self.order_reference, 
                                         self.order_date,

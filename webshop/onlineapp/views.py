@@ -150,7 +150,6 @@ def edit_profile(request):
 def changepass(request):
  if request.method == "POST":
    pwd = PasswordChangeForm(user=request.user, data=request.POST)
-   print
    if pwd.is_valid():
      pwd.save()
      messages.success(request, 'Password changed successfully!')
@@ -163,7 +162,7 @@ def changepass(request):
 
 def about(request):
     return render(request, 'onlineapp/about.html')
-    
+
 @login_required(login_url="/onlineapp/login")
 def cart_add(request, id):
     cart = Cart(request)
@@ -214,14 +213,18 @@ def cart_detail(request):
     for i in l:
       total=total+(float(i['quantity'])*float(i['price']))
 
-    context={'total_cart_value':total}
+    context={'total_cart_value':total}    
     return render(request, 'onlineapp/cart.html',context)  
 
 @login_required(login_url="/onlineapp/login")
 def checkout(request):
+  '''
+  Display PayPal Checkout
+  pip install django-paypal 2.0 for this functionality
+  '''
   data = Cart(request)
   customer=request.user
-  address='11'
+  address=request.POST.get('address')
   order=Order.objects.create(customer=customer,
                       address=address)
   id=order.id
@@ -232,7 +235,6 @@ def checkout(request):
 
   for key,value in data.cart.items():
     product = Product.objects.get(id=value['product_id'])
-    # size=value['product_id']
     qty=int(value['quantity'])
     price=float(value['price'])
    
@@ -260,14 +262,19 @@ def checkout(request):
 
 @login_required(login_url="/onlineapp/login")
 def user_orders(request):
-	orders=Order.objects.filter(customer=request.user).order_by('-id')
-	return render(request, 'onlineapp/myorders.html',{'orders':orders})
+  '''
+  Display orders for the logged in customer
+  '''
+  orders=Order.objects.filter(customer=request.user).order_by('-id')
+  return render(request, 'onlineapp/myorders.html',{'orders':orders})
 
 @login_required(login_url="/onlineapp/login")
 def user_order_detail(request,id):
+  '''
+  Display order details
+  '''
   order=Order.objects.get(pk=id)
   orderdetail=OrderDetail.objects.filter(order=order).order_by('-id')
-  total_value =OrderDetail.objects.filter(order=order).aggregate(total_value=Sum(F('qty') * F('price')))['total_value']
   context={'orderdetail':orderdetail,
             'media_url':MEDIA_URL,
             'total_value':order.get_total_value}
@@ -275,9 +282,17 @@ def user_order_detail(request,id):
 
 @csrf_exempt
 def payment_done(request,id):  
+  '''
+  Display payment success page with a link to the order
+  '''
+  #Delete the cart when the order checkout is success
   del request.session['cart']
+
+  #Update the PayerID
   payment_reference=request.GET['PayerID']
   Order.objects.filter(pk=id).update(payment_provider=payment_reference)  
+
+  #Fetch order to be displayed
   order=Order.objects.get(pk=id)
   context={'payment_reference':payment_reference,
             'id':id,
@@ -288,4 +303,8 @@ def payment_done(request,id):
 
 @csrf_exempt
 def payment_cancelled(request,id):
+  '''
+  Display payment cancelled page or failed
+  for PayPal
+  '''
   return render(request, 'onlineapp/payment-fail.html')

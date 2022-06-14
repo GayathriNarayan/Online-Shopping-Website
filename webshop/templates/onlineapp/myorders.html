@@ -13,7 +13,9 @@
 						<tr>
 							<th class="text-center">Order ref.</th>
 							<th class="text-center">Date</th>
+							<th class="text-center">Delivered To</th>
 							<th class="text-right">Total Value</th>
+							<th class="text-right">Order Status</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -21,7 +23,9 @@
 						<tr>
 							<td class="text-center"><a href="{% url 'onlineapp:user_order_detail' order.id %}" class="btn btn-sm btn-dark">{{order.order_reference}}</a></td>
                             <td class="text-center">{{order.order_date}}</td>
+							<td class="text-left">{{order.address}}</td>
 							<td class="text-right">{{order.get_total_value}}</td>
+							<td class="text-right">{{order.payment_status}}</td>
 						</tr>
 						{% endfor %}
 					</tbody>

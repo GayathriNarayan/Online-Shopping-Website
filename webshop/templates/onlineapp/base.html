@@ -47,12 +47,12 @@
 				<div class="col-sm-8">
 					<div class="shop-menu pull-right">
 						<ul class="nav navbar-nav">
-							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
+							<li><a href="{% url 'onlineapp:cart_detail' %}"><i class="fa fa-shopping-cart"></i></a></li>
 							<div class="col-sm-4">
 								<div class="search_box">
-									<form action="/search" method="get"></form>
+									<form action="/search" method="get">
 									<input style="width:400px" type="text" placeholder="Search" name="prosearch">
-
+								</form>
 								</div>
 							</div>
 						</ul>
@@ -90,7 +90,7 @@
 							</li>
 							{% if user.is_authenticated %}
 								<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
-								<li><a href="myorders.html">My Orders</a></li>
+								<li><a href="{% url 'onlineapp:user_orders' %}">My Orders</a></li>
 								<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
 							{% else %}
 							<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>

@@ -6,27 +6,14 @@
 	<div class="row">
 		<div class="col-md-9">
 			<h3 class="my-4 border-bottom pb-1">Select Payment Method</h3>
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th colspan="5">Select Payment Method</th>
-					</tr>
-				</thead>
-				<tbody>
-						<tr>
-							<td>
-								<img class="img-fluid" src="{% static 'images/cart/paypal.png' %}" alt="">
-							</td>
-							<td colspan="3">
-								{{form.render}}
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-								Swish
-							</td>
-						</tr>
-				</tbody>
+			<table class="table table-sm">
+				<tr>
+					<th scope="row"><img src="{% static 'images/cart/paypal.jpg' %}" alt=""></th>
+						
+					<td>
+						{{form.render}}
+					</td>
+				</tr>				
 			</table>
 		</div>		
 	</div>

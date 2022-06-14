@@ -51,10 +51,20 @@
                     <a href="/" class="btn btn-outline-dark">&#x2190 Continue Shopping</a>
                     <br><br>
                     <table class="table">
-                        <tr>                            
-                            <th><a href="{% url 'onlineapp:checkout' %}" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;">Checkout</a>
-                            </th>
-                        </tr>
+                        <form action="{% url 'onlineapp:checkout' %}" method="POST">
+                            {% csrf_token %}
+                            <tr>   
+                                <td>                                                                
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea2">Delivery Address:</label>
+                                        <textarea class="form-control rounded-0" id="address" name="address" rows="3" required="required"></textarea>
+                                    </div>
+                                </td>                         
+                                <td>
+                                    <input type="submit" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;" value="Checkout">
+                                </d>
+                            </tr>
+                        </form>
                     </table>
                 </div>
                 <br>
