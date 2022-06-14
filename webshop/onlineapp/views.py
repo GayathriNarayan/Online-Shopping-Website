@@ -101,7 +101,7 @@ def user_logout(request):
 def search(request):
      text= request.GET['prosearch']
      data=Product.objects.filter(name__icontains = text).order_by('-id')
-     return render(request, 'onlineapp/search.html' , {'data':data})
+     return render(request, 'onlineapp/search.html' , {'data':data}, {'MEDIA_URL': settings.MEDIA_URL})
 
 
 def cart_add(request, id):
