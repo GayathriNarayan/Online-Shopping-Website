@@ -71,6 +71,7 @@ def user_signup(request):
       user.set_password(user.password)
       user.save()
       registered = True
+      send_welcome_email(request,user_form.cleaned_data['email'])
 
     else:
       print(user_form.errors)
@@ -115,7 +116,7 @@ def user_logout(request):
 def search(request):
      text= request.GET['prosearch']
      data=Product.objects.filter(name__icontains = text).order_by('-id')
-     return render(request, 'onlineapp/search.html' , {'data':data}, {'MEDIA_URL': settings.MEDIA_URL})
+     return render(request, 'onlineapp/search.html' , {'data':data, 'media_url': MEDIA_URL})
 
 
 def cart_add(request, id):
@@ -180,4 +181,17 @@ def about(request):
 
 
 
+#---- Send Email ------
+#######################sending email #############################
 
+from django.core.mail import send_mail
+from django.conf import settings
+import smtplib
+
+
+def send_welcome_email(request, sended_email):
+    subject = 'Welcome Message from G3-Store'
+    message = "Your registeration is complete, you can browse more items and shop"
+    from_email=settings.EMAIL_HOST_USER
+    send_mail(subject, message, from_email,[sended_email],auth_user= settings.EMAIL_HOST_USER, fail_silently=False,
+    html_message="html><body><table style='font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;'><tr><td style ='border: 1px solid #ddd;padding: 8px;'>Welcome "+ sended_email +" you can browse more items using " +settings.HOME_LINK +"</td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'>To login " +settings.LOGIN_LINK +" </td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'> To change your password, link to  "+settings.CHANGE_PASS_LINK +"</td></tr></table></body></html>")
