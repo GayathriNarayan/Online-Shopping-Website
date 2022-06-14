@@ -52,7 +52,8 @@
 								<div class="search_box">
 									<form action="/search" method="get">
 									<input style="width:400px" type="text" placeholder="Search" name="prosearch">
-</form>
+								  </form>
+
 								</div>
 							</div>
 						</ul>
@@ -88,10 +89,17 @@
 									<li><a href="checkout.html">Accersories</a></li>
 								</ul>
 							</li>
-							{% if user.is_authenticated %}
-								<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
-								<li><a href="myorders.html">My Orders</a></li>
-								<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
+							{% if user.is_authenticated and user.is_superuser %}
+							
+							<li><a href="{% url 'admin:index' %}">Admin</a></li>
+							
+							<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
+							<li><a href="myorders.html">My Orders</a></li>
+							<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
+							{% elif user.is_authenticated %}
+							<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
+							<li><a href="myorders.html">My Orders</a></li>
+							<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
 							{% else %}
 							<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>
 							<li><a href="{% url 'onlineapp:user_signup' %}">Sign up</a></li>
@@ -136,7 +144,7 @@
 		</div>
 	</div>
 
-	<div class="footer-bottom">
+	<div class="footer-bottom fixed-bottom">
 		<div class="container">
 			<div class="row">
 				<p style="text-align:center">Copyright © 2022 Group3 Inc. All rights reserved.</p>
