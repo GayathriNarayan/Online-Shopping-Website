@@ -1,0 +1,58 @@
+{% extends 'onlineapp/base.html' %} {% block content %}
+
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <div class="signup-form">
+        <h3 class="font-weight-light my-1 text-center">Password change</h3>
+        <br />
+        <form method="post">
+          {% for message in messages %} 
+                {% if 'safe' in message.tags %} 
+                   {{ message }}
+                 
+                 {% else %} 
+                    {{ message }} 
+                 
+                {% endif %} 
+          
+          {% endfor %}
+
+          <form action="" method="post">
+            {% csrf_token %} {{form.as_p}}
+           <button class="btn btn-default" type="submit" value="Save">
+              Save
+            </button>
+          </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+<!--
+
+
+<div class="card-header justify-content-center">
+  <h3 class="font-weight-light my-4 text-center">
+    Change your password here.
+  </h3>
+  {% for message in messages %}
+    <p class="{{ message.tags }}">
+    <em>{{user.first_name}}, </em>
+    {% if 'safe' in message.tags %}
+      {{ message|safe }}
+    {% else %}
+      {{ message }}
+    {% endif %}
+    </p>
+  {% endfor %}
+  <form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Save">
+    </form>
+</div>
+-->

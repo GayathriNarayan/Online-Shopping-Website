@@ -14,9 +14,14 @@ from collections import UserString
 from onlineapp import forms
 from django.contrib import messages
 from onlineapp import models
-from onlineapp.forms import UserForm
+from onlineapp.forms import UserForm, LoginForm, EditUserProfileForm
 from onlineapp.forms import LoginForm
 from django.contrib.auth.models import User
+
+#------ imran imports ----
+from django.contrib.auth.forms import PasswordChangeForm
+
+#-------------------------
 
 
 # Create your views here.
@@ -110,8 +115,69 @@ def user_logout(request):
 def search(request):
      text= request.GET['prosearch']
      data=Product.objects.filter(name__icontains = text).order_by('-id')
-     return render(request, 'onlineapp/search.html' , {'data':data})
+     return render(request, 'onlineapp/search.html' , {'data':data}, {'MEDIA_URL': settings.MEDIA_URL})
 
 
 def cart_add(request, id):
   return HttpResponse('done')
+
+
+ #-----product list  -----Imran-----
+ 
+def home(request):
+  #category = ProductClassification.objects.all()
+  product = Product.objects.all()
+  data_category = {
+   # 'category' : category,
+    'product' : product,
+    'media_url': MEDIA_URL
+  }
+  return render(request,'onlineapp/home.html', data_category)
+
+  #---------- Profile-----------#
+
+def profile(request):
+    return render(request, 'onlineapp/profile.html',{'media_url': MEDIA_URL})
+
+#---------- Edit Profile-----------#
+
+def edit_profile(request):
+
+  if request.user.is_authenticated:
+    if request.method == "POST":
+      usr = EditUserProfileForm(request.POST, instance=request.user)
+      if usr.is_valid():
+        messages.success(request, 'profile updated !')
+        usr.save()
+    else:
+     usr = EditUserProfileForm(instance=request.user)
+    return render(request, 'onlineapp/edit_profile.html', {'name': request.user, 
+                                                    'form':usr,
+                                                    'media_url': MEDIA_URL})
+
+  else:
+
+    return HttpResponseRedirect('onlineapp/login')
+
+#---- change password------ Imran ---- #
+
+def changepass(request):
+ if request.method == "POST":
+   pwd = PasswordChangeForm(user=request.user, data=request.POST)
+   print
+   if pwd.is_valid():
+     pwd.save()
+     messages.success(request, 'Password changed successfully!')
+   else:
+    messages.warning(request, 'Follow the instructions & Try again')
+ else:
+    pwd = PasswordChangeForm(user=request.user)
+    
+ return render(request, 'onlineapp/changepass.html', {'form':pwd})
+
+def about(request):
+    return render(request, 'onlineapp/about.html')
+
+
+
+
