@@ -39,6 +39,7 @@ def user_signup(request):
       user.set_password(user.password)
       user.save()
       registered = True
+      send_welcome_email(request,user_form.cleaned_data['email'])
 
     else:
       print(user_form.errors)
@@ -88,6 +89,7 @@ def search(request):
   
 
 #######################sending email #############################
+
 from django.core.mail import send_mail
 from django.conf import settings
 import smtplib
@@ -98,6 +100,5 @@ def send_welcome_email(request, sended_email):
     message = "Your registeration is complete, you can browse more items and shop"
     from_email=settings.EMAIL_HOST_USER
     send_mail(subject, message, from_email,[sended_email],auth_user= settings.EMAIL_HOST_USER, fail_silently=False,
-    html_message="html><body><table style='font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;'><tr><td style ='border: 1px solid #ddd;padding: 8px;'>Welcome "+ sended_email +" you can browse more items using " +settings.HOME_LINK +"</td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'>to login " +settings.LOGIN_LINK +" </td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'> To show products "+settings.PRODUCT_LINK +"</td></tr></table></body></html>")
-  
+    html_message="html><body><table style='font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;'><tr><td style ='border: 1px solid #ddd;padding: 8px;'>Welcome "+ sended_email +" you can browse more items using " +settings.HOME_LINK +"</td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'>To login " +settings.LOGIN_LINK +" </td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'> To change your password, link to  "+settings.CHANGE_PASS_LINK +"</td></tr></table></body></html>")
   
