@@ -1,4 +1,4 @@
-from onlineapp.models import Product,ProductSize
+from onlineapp.models import Product,ProductSize,Product_Review
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout,authenticate
@@ -30,19 +30,33 @@ def home(request):
   products =Product.objects.all()
   return render(request,'onlineapp/home.html',{'products':products})
   
-#########################  Product Detail ###############################################################################################
+#########################  Product Detail ###############################################
 
-"""
-function to fetch product details to be viewed on product view page when user wants
-more information regading a particular product
-"""
+'''
+Function to fetch product details to be viewed on product view page when user wants
+more information regading a particular product and can add review for that product
+to be saved in database.
+
+'''
 
 def product_view(request, pid):
   product =Product.objects.filter(id=pid).first()
   sizes = ProductSize.objects.filter(product=product)
-  return render(request, "onlineapp/product_view.html", {'product':product,'sizes':sizes , 'media_url': MEDIA_URL})
+  reviews = Product_Review.objects.filter(product=product).order_by('-datetime') [:5] 
+  #customer = request.user
+
+  if request.method=="POST" and request.user.is_authenticated:
+    content = request.POST['content']
+    review = Product_Review(user= request.user, content=content, product=product)
+    review.save()
+
+  return render(request, "onlineapp/product_view.html", {'product':product,
+                                                         'sizes':sizes ,
+                                                         'reviews':reviews,
+                                                         'media_url': MEDIA_URL})
+
   
-#######################################################################################################################################
+####################################################################################
   
 #########################  User Account #############################################
 def user_signup(request):
