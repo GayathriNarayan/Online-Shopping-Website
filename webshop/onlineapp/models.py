@@ -1,7 +1,9 @@
 from operator import truediv
+from unicodedata import name
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 class CustomerInfo(models.Model):
     '''
@@ -22,6 +24,13 @@ class ProductClassification(models.Model):
     '''    
     name = models.CharField(max_length=50,unique=True)
     description = models.CharField(max_length=1000)
+
+
+
+    # def gender_exists(self):
+    #     count=Product.objects(Count(filter(productclassification=self.pk, gender__in=(Product.GENDER_F, Product.GENDER_M))))
+    #     return count
+
     
     def __str__(self):
        return '{} {}'.format(self.name, self.description)
@@ -42,7 +51,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)    
     productclassification = models.ForeignKey(ProductClassification, on_delete=models.CASCADE)
-    gender = models.IntegerField(choices=GENDER_CHOICES,blank=True)
+    gender = models.IntegerField(choices=GENDER_CHOICES,blank=True,null=True)
     price =models.DecimalField(max_digits=10,
                                 decimal_places=2,default=0)
     image=models.ImageField(upload_to='product_images',blank=True,default='default_product.jpg')                        
@@ -114,3 +123,12 @@ class OrderDetail(models.Model):
                                         self.product.name,
                                         self.qty,
                                         self.price)
+
+#-----Contact Us-----
+class Contactus(models.Model):
+    name = models.CharField(max_length=150)
+    email = models.EmailField(150)
+    subject = models.CharField(max_length=150)
+    message = models.TextField()
+    def __str__(self):
+        return self.email

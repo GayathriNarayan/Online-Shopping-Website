@@ -1,0 +1,20 @@
+{% extends 'onlineapp/base.html' %} {% block title %}My Profile{% endblock %} 
+{% block content %}
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <h1>Profile <em>{{ user.username }}</em></h1>
+      <p class="card-text">First Name : {{ user.get_full_name }}</p>
+      <p class="card-text">Last Name : {{ user.get_full_name }}</p>
+      <p class="card-text">Email : {{ user.email }}</p>
+      <p class="card-text">Address : #</p>
+
+      <a href="{% url 'edit_profile' %}">
+        <button class="btn btn-default" type="submit" style="background-color:orange; border-color:orange; color:white; ">Edit Profile</button>
+      </a>
+      <a href="{% url 'changepass' %}">
+        <input class="btn btn-default "type="button" value="Change Password" style="background-color:orange; border-color:orange; color:white;"/></a>
+    </div>
+  </div>
+</section>
+{% endblock %}

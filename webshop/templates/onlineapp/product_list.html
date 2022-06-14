@@ -1,0 +1,143 @@
+{% extends 'onlineapp/base.html' %}
+{% load static %}
+
+
+{% block title %} {{ProductClassification.name}} {% endblock title %}
+{% block css %} {% endblock css %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            </div> 
+            {% if products_f or products_m %}
+            <div class="col-sm-2">
+                <div class="left-sidebar">
+                    <h2>Filter By</h2>
+                    <h4>Gender</h4>
+                    <div class="panel-group category-products" id="accordian">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="women_checkbox" checked />
+                            <label class="form-check-label" for="women">WOMEN</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="men_checkbox" checked />
+                            <label class="form-check-label" for="men">MEN</label>
+                        </div> 
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="both_checkbox" checked />
+                            <label class="form-check-label" for="both">BOTH</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="col-sm-10 padding-right">
+                {% if products_f %}
+                <div id="women">
+                    <div class="panel-heading text-center">
+                        <h2 class="title">
+                            WOMEN
+                        </h2>
+                    </div>
+                    <div class="jacket">
+                        {% for prod in products_f %}
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <div class="jacket-image">
+                                            <img src="{{prod.image.url}}">
+                                        </div>
+                                        <h2>{{prod.price}} SEK</h2>
+                                        <p>{{prod.name}}</p>
+                                        <a href="#" class="btn btn-default add-to-cart">View this product</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if products_m %}
+                <div id="men">
+                    <div class="panel-heading text-center">
+                        <h2 class="title">
+                            MEN
+                        </h2>
+                    </div>
+                    <div class="jacket">
+                        {% for prod in products_m %}
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <div class="jacket-image">
+                                            <img src="{{prod.image.url}}">
+                                        </div>
+                                        <h2>{{prod.price}} SEK</h2>
+                                        <p>{{prod.name}}</p>
+                                        <a href="#" class="btn btn-default add-to-cart">View this product</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if all_products %}
+                <div id="allproducts">
+                    <div class="panel-heading text-center">
+                        <h2 class="title">
+                            {{category.name}}
+                        </h2>
+                    </div>
+                    <div class="jacket">
+                        {% for prod in all_products %}
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <div class="jacket-image">
+                                            <img src="{{prod.image.url}}">
+                                        </div>
+                                        <h2>{{prod.price}} SEK</h2>
+                                        <p>{{prod.name}}</p>
+                                        <a href="#" class="btn btn-default add-to-cart">View this product</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#women_checkbox").click(function () {
+            $("#women").toggle();
+        });
+        $("#men_checkbox").click(function () {
+            $("#men").toggle();
+        });
+        $("#allproducts").click(function () {
+            $("#allproducts").toggle();
+        });
+    });
+
+
+</script>

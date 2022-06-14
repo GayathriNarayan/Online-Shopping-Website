@@ -1,0 +1,116 @@
+{% extends 'onlineapp/base.html' %} {% block title %} Login {% endblock title %}
+{% block css %} {% endblock css %} {% block content %}
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <div class="signup-form">
+        <h3 class="font-weight-light my-1 text-center">Log In</h3>
+
+        {% csrf_token %} {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          {% for key, value in form.errors.items %} {{ value }} {% endfor %}
+        </div>
+        {% endif %}
+ 
+            <form method="POST">
+               <label class="medium mb-1">Username:</label>
+                {% csrf_token %} {{ form.username }}
+
+               <label class="medium mb-1">Password:</label>
+                 {{ form.password }}
+
+               <button name="login" class="btn btn-default" id="login">
+                 Log in
+               </button>
+            </form>
+
+          <a href="{% url 'onlineapp:user_signup' %}">Don't have an account?  Click here</a>
+       </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+<!--
+<section id="form" style="margin-left: 30%; margin-top: 3%">
+  <div class="container">
+    <div class="col-sm-4 col-sm-offset-1">
+      <div class="signup-form">
+
+
+
+
+      </div>
+    </div>
+  </div>
+</section> 
+
+
+
+
+
+<form method="POST" action="{% url 'onlineapp:user_login' %}">
+    {% csrf_token %}
+<div class="form-content my-3 p-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                    <div class="card-header justify-content-center">
+                        <h3 class="font-weight-light my-1 text-center">Log In</h3>
+                    </div>
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div id="form_errors">
+                                {% for key, value in form.errors.items %}
+                                    <strong>{{ value }}</strong>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <form method="POST">
+                       
+                            <div class="form-row">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="form-group">
+                                        <label class="small mb-1">Username</label>
+                                        {% csrf_token %}
+                                        {{ form.username }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="form-group">
+                                        <label class="small mb-1">Password</label>
+                                        {{ form.password }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="form-group mt-0 mb-1">
+                                        <button name="login" class="col-md-12 btn btn-dark" id="login">Log in</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small">
+                            <a href="{% url 'onlineapp:user_signup' %}">Don't have an account yet? Go to signup</a><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+-->
