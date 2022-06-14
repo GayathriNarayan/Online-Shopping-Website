@@ -142,3 +142,16 @@ LOGIN_URL = 'login/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#------ Email settings 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'g3storemanagement@gmail.com'
+EMAIL_HOST_PASSWORD = 'gcvtauvuuxnymokw'
+EMAIL_USE_SSL = False
+HOME_LINK= '127.0.0.1:8000'
+LOGIN_LINK= '127.0.0.1:8000/login'
+CHANGE_PASS_LINK = '127.0.0.1:8000/changepass'

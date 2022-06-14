@@ -1,9 +1,12 @@
 from operator import truediv
+from pickle import TRUE
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Sum	
 from django.db.models import F
+from django.utils.timezone import now
+
 class CustomerInfo(models.Model):
     '''
     Customer information
@@ -132,3 +135,17 @@ class OrderDetail(models.Model):
                                         self.product.name,
                                         self.qty,
                                         self.price)
+
+
+ 
+class Product_Review(models.Model):
+    '''
+    Product Review table containing users reviews for a particular product 
+    ''' 
+    user = models.ForeignKey(User,on_delete=models.CASCADE) 
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    content = models.TextField(blank=True ,null=True)
+    datetime = models.DateTimeField(default=now)
+ 
+    def __str__(self):
+        return '{} {}'.format(self.customer,self.content)
