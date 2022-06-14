@@ -1,0 +1,129 @@
+{% extends 'onlineapp/base.html' %}
+{% load static %}
+{% block title %} Cart {% endblock title %}
+{% block css %}
+<style>
+    .cart-row {
+                display: flex;
+                align-items: flex-stretch;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ececec;
+
+            }
+    .box-element {
+        box-shadow: hsl(0, 0%, 80%) 0 0 16px;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 10px;
+    }
+    .row-image {
+        width: 100px;
+    }        
+    .chg-quantity {
+        width: 12px;
+        cursor: pointer;
+        display: block;
+        margin-top: 5px;
+        transition: .1s;
+    }
+
+    .chg-quantity:hover {
+        opacity: .6;
+    }
+    .quantity {
+            display: inline-block;
+            font-weight: 700;
+            padding-right: 10px;
+
+
+        }
+</style> 
+{% endblock css %}
+   
+{% load cart_tag %}  
+{% block content %}
+<section style="margin-left: 20%; margin-top: 3%">
+    <div class="container-fluid row">
+        <div class="col-lg-8">
+            {% if request.session.cart %}
+                <div class="box-element">
+                    <a href="/" class="btn btn-outline-dark">&#x2190 Continue Shopping</a>
+                    <br><br>
+                    <table class="table">
+                        <form action="{% url 'onlineapp:checkout' %}" method="POST">
+                            {% csrf_token %}
+                            <tr>   
+                                <td>                                                                
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea2">Delivery Address:</label>
+                                        <textarea class="form-control rounded-0" id="address" name="address" rows="3" required="required"></textarea>
+                                    </div>
+                                </td>                         
+                                <td>
+                                    <input type="submit" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;" value="Checkout">
+                                </d>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+                <br>
+                <div class="box-element">
+                    <div class="cart-row">
+                        <div style="flex: 2;"><strong>Product</strong></div>
+                        <div style="flex: 2;"><strong>Item</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Price</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Quantity</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Total</strong></div>
+                        <div style="flex: 1; text-align: right;"><strong>Delete</strong></div>
+                    </div>
+                {% for key,value in request.session.cart.items %}
+                    <div class="cart-row">
+                        <div style="flex: 2;"><img class="row-image img-thumbnail" src="{{ value.image }}" alt=""></div>
+                        <div style="flex: 2;">{{value.name}}</div>
+                        <div style="flex: 1; text-align: right;">{{value.price}} SEK</div>
+                        <div style="flex: 1; text-align: right;">
+                            <p class="quantity">{{value.quantity}}</p>
+                            <div class="quantity text-align: right;">
+                                <a href="{% url 'onlineapp:item_increment' value.product_id %}"><img src="{% static 'images/cart/increase.png' %}" class="chg-quantity" alt=""></a>
+                                <a href="{% url 'onlineapp:item_decrement' value.product_id %}"><img src="{% static 'images/cart/decrease.png' %}" class="chg-quantity" alt=""></a>
+                            </div>
+                        </div>
+                        <div style="flex: 1; text-align: right;">{{value.price|multiply:value.quantity}} SEK</div>
+                        <div style="flex: 1; text-align: right;"><a href="{% url 'onlineapp:item_clear' value.product_id %}">Delete</a></div>                    
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <div class="box-element">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                <h5>Items: <strong>{{request.session.cart|length}}</strong></h5>
+                            </th>
+                            <th>
+                                <h5>Total: <strong>{{total_cart_value}} SEK</strong></h5>
+                            </th>
+                            <th><a href="{% url 'onlineapp:checkout' %}" class="btn btn-success" style="float: right; margin: 5px; background-color:orange; border-color:orange; color:white;">Checkout</a>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            {% else %}
+            <div class="box-element">
+                <a href="/" class="btn btn-outline-dark">&#x2190 Continue Shopping</a>
+                <br><br>
+                <table class="table">
+                    <tr>
+                        <td class="text-center">
+                            <h3><strong>No items in your cart.</strong></h3>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<br>
+{% endblock content %}

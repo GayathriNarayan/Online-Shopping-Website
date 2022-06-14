@@ -1,0 +1,45 @@
+{% extends 'onlineapp/base.html' %}
+{% load static %}
+{% load cart_tag %} 
+{% block content %}
+<main class="container my-4">
+	<!-- Featured Products -->
+	<h3 class="my-4 border-bottom pb-1">Order Details</h3>
+	<div class="row">
+
+		<div class="col-md-9">
+			<div class="table-responsive">
+				<table class="table-bordered table">
+					<thead>
+						<tr>
+							<th class="text-left">Order Ref.</th>
+							<th class="text-left">Product</th>
+							<th class="text-right">Qty</th>
+							<th class="text-right">Price</th>
+							<th class="text-right">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in orderdetail %}
+						<tr>
+							<td class="text-left">{{item.order.order_reference}}</td>
+							<td class="text-left">
+								<p><img src="/media/{{item.product.image}}" width="80" />
+                                {{item.product.name}}</p>								
+							</td>
+							<td class="text-right">{{item.qty}}</td>
+							<td class="text-right">{{item.price}}</td>
+							<td class="text-right">{{item.price|multiply:item.qty}}</td>
+						</tr>
+						{% endfor %}
+                        <tr>
+                            <td colspan="4" class="text-right">Total</td>
+                            <td colspan="4" class="text-right">{{total_value}}</td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

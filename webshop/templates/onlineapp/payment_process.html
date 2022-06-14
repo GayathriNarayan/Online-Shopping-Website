@@ -1,0 +1,21 @@
+{% extends 'onlineapp/base.html' %}
+{% load static %}
+{% block content %}
+<main class="container my-4" id="cartList">
+	<!-- Featured Products -->
+	<div class="row">
+		<div class="col-md-9">
+			<h3 class="my-4 border-bottom pb-1">Select Payment Method</h3>
+			<table class="table table-sm">
+				<tr>
+					<th scope="row"><img src="{% static 'images/cart/paypal.jpg' %}" alt=""></th>
+						
+					<td>
+						{{form.render}}
+					</td>
+				</tr>				
+			</table>
+		</div>		
+	</div>
+</main>
+{% endblock %}

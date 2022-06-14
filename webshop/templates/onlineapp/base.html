@@ -47,7 +47,7 @@
 				<div class="col-sm-8">
 					<div class="shop-menu pull-right">
 						<ul class="nav navbar-nav">
-							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
+							<li><a href="{% url 'onlineapp:cart_detail' %}"><i class="fa fa-shopping-cart"></i></a></li>
 							<div class="col-sm-4">
 								<div class="search_box">
 									<form action="/search" method="get">
@@ -98,7 +98,7 @@
 							<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
 							{% elif user.is_authenticated %}
 							<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
-							<li><a href="myorders.html">My Orders</a></li>
+							<li><a href="{% url 'onlineapp:user_orders' %}">My Orders</a></li>
 							<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
 							{% else %}
 							<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>

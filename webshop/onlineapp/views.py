@@ -17,12 +17,17 @@ from onlineapp import models
 from onlineapp.forms import UserForm, LoginForm, EditUserProfileForm
 from onlineapp.forms import LoginForm
 from django.contrib.auth.models import User
+from cart.cart import Cart	
+from onlineapp.models import Order,OrderDetail	
+from django.conf import settings
+from paypal.standard.forms import PayPalPaymentsForm		
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Sum	
+from django.db.models import F
 
 #------ imran imports ----
 from django.contrib.auth.forms import PasswordChangeForm
-
 #-------------------------
-
 
 # Create your views here.
 
@@ -118,12 +123,7 @@ def search(request):
      data=Product.objects.filter(name__icontains = text).order_by('-id')
      return render(request, 'onlineapp/search.html' , {'data':data, 'media_url': MEDIA_URL})
 
-
-def cart_add(request, id):
-  return HttpResponse('done')
-
-
- #-----product list  -----Imran-----
+#-----product list  -----Imran-----
  
 def home(request):
   #category = ProductClassification.objects.all()
@@ -165,7 +165,6 @@ def edit_profile(request):
 def changepass(request):
  if request.method == "POST":
    pwd = PasswordChangeForm(user=request.user, data=request.POST)
-   print
    if pwd.is_valid():
      pwd.save()
      messages.success(request, 'Password changed successfully!')
@@ -178,8 +177,6 @@ def changepass(request):
 
 def about(request):
     return render(request, 'onlineapp/about.html')
-
-
 
 #---- Send Email ------
 #######################sending email #############################
@@ -195,3 +192,149 @@ def send_welcome_email(request, sended_email):
     from_email=settings.EMAIL_HOST_USER
     send_mail(subject, message, from_email,[sended_email],auth_user= settings.EMAIL_HOST_USER, fail_silently=False,
     html_message="html><body><table style='font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;'><tr><td style ='border: 1px solid #ddd;padding: 8px;'>Welcome "+ sended_email +" you can browse more items using " +settings.HOME_LINK +"</td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'>To login " +settings.LOGIN_LINK +" </td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'> To change your password, link to  "+settings.CHANGE_PASS_LINK +"</td></tr></table></body></html>")
+
+@login_required(login_url="/onlineapp/login")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("onlineapp:product_view",pid=id)
+
+
+@login_required(login_url="/onlineapp/login")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("onlineapp:cart_detail")
+
+
+@login_required(login_url="/onlineapp/login")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("onlineapp:cart_detail")
+
+
+@login_required(login_url="/onlineapp/login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    try:
+      cart.decrement(product=product)
+    finally:      
+      return redirect("onlineapp:cart_detail")
+
+
+@login_required(login_url="/onlineapp/login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("onlineapp:cart_detail")
+
+
+@login_required(login_url="/onlineapp/login")
+def cart_detail(request):
+    total=0
+    data=request.session.values()
+    d=list(data)[3]
+    l=[*d.values()]
+    for i in l:
+      total=total+(float(i['quantity'])*float(i['price']))
+
+    context={'total_cart_value':total}    
+    return render(request, 'onlineapp/cart.html',context)  
+
+@login_required(login_url="/onlineapp/login")
+def checkout(request):
+  '''
+  Display PayPal Checkout
+  pip install django-paypal 2.0 for this functionality
+  '''
+  data = Cart(request)
+  customer=request.user
+  address=request.POST.get('address')
+  order=Order.objects.create(customer=customer,
+                      address=address)
+  id=order.id
+  order.order_reference="ORD"+str(id).zfill(5)
+  order.save()
+  
+  total_value=0
+
+  for key,value in data.cart.items():
+    product = Product.objects.get(id=value['product_id'])
+    qty=int(value['quantity'])
+    price=float(value['price'])
+   
+    total_value=total_value+(qty*price)
+    items=OrderDetail.objects.create(order=order,
+                                        product=product,
+                                        qty=qty,
+                                        price=price)
+    items.save()
+  # Process Payment
+  host = request.get_host()
+  paypal_dict = {
+      'business': settings.PAYPAL_RECEIVER_EMAIL,
+      'amount': total_value,
+      'item_name': order.order_reference,
+      'invoice': order.order_reference,
+      'currency_code': 'SEK',
+      'notify_url': 'http://{}{}'.format(host,reverse('onlineapp:paypal-ipn')),
+      'return_url': 'http://{}{}'.format(host,reverse('onlineapp:payment_done',args=(str(order.id),))),
+      'cancel_return': 'http://{}{}'.format(host,reverse('onlineapp:payment_cancelled',args=(str(order.id),))),
+  }
+  form = PayPalPaymentsForm(initial=paypal_dict)
+  return render(request, 'onlineapp/payment_process.html',{'form':form})
+  
+
+@login_required(login_url="/onlineapp/login")
+def user_orders(request):
+  '''
+  Display orders for the logged in customer
+  '''
+  orders=Order.objects.filter(customer=request.user).order_by('-id')
+  return render(request, 'onlineapp/myorders.html',{'orders':orders})
+
+@login_required(login_url="/onlineapp/login")
+def user_order_detail(request,id):
+  '''
+  Display order details
+  '''
+  order=Order.objects.get(pk=id)
+  orderdetail=OrderDetail.objects.filter(order=order).order_by('-id')
+  context={'orderdetail':orderdetail,
+            'media_url':MEDIA_URL,
+            'total_value':order.get_total_value}
+  return render(request, 'onlineapp/orderdetail.html',context)
+
+@csrf_exempt
+def payment_done(request,id):  
+  '''
+  Display payment success page with a link to the order
+  '''
+  #Delete the cart when the order checkout is success
+  del request.session['cart']
+
+  #Update the PayerID
+  payment_reference=request.GET['PayerID']
+  Order.objects.filter(pk=id).update(payment_provider=payment_reference)  
+
+  #Fetch order to be displayed
+  order=Order.objects.get(pk=id)
+  context={'payment_reference':payment_reference,
+            'id':id,
+            'order_reference':order.order_reference,
+            'order_date':order.order_date}
+  return render(request, 'onlineapp/payment-success.html',context)
+
+
+@csrf_exempt
+def payment_cancelled(request,id):
+  '''
+  Display payment cancelled page or failed
+  for PayPal
+  '''
+  return render(request, 'onlineapp/payment-fail.html')
