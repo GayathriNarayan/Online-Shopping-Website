@@ -29,9 +29,11 @@ urlpatterns = [
     path('payment_done/<int:id>/', views.payment_done, name='payment_done'),
     path('payment_cancelled/<int:id>/', views.payment_cancelled, name='payment_cancelled'),
     path('profile/', views.profile, name="profile"),
-    path('about/', views.about, name="about"), 
-    path('product_list/<int:id>/', views.product_list,name='product_list'),
-    
+#     path('about/', views.about, name="about"), 
+    path('about/', views.contactus, name="about"),
+    path('product_list/<int:id>/', views.product_list,name='product_list'),     
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('changepass/', views.changepass, name='changepass'),    
    ]
 
 if settings.DEBUG:

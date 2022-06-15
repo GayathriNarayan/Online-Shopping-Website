@@ -1,20 +1,27 @@
 {% extends 'onlineapp/base.html' %}
-
-{% block title %} This is home page {% endblock title %}
-{% block css %}  {% endblock css %}
-
+{% block title %} About Us {% endblock title %}
+{% block css %} {% endblock css %}
 {% block content %}
-
 <div id="contact-page" class="container">
   <div class="bg">
     <!--/aboutus-->
     <div class="row">
       <div class="col-sm-12">
         <div>
-
+          {% for message in messages %}
+          <div class="alert alert-success alert-dismissible" role="alert">
+            {% if 'safe' in message.tags %}
+            {{ message|safe }}
+            {% else %}
+            {{ message }}
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        
+        <div>
           <img src="\static\images\about.webp" alt="" width="1130" height="350" /><br /><br />
           <h2 class="title ">About <strong>us</strong></h2>
-
           <p>G3-Sports Group consists of the concepts G3-Sports and G3-Sports Outlet, which together have about 180
             physical stores and each e-commerce. Together they form Sweden's largest sports and sports fashion chain.
             Stockholm is home to the G3-Sports Group's head office, which is called the “service office”, as it aims to
@@ -29,16 +36,13 @@
             children are activated annually during the camp weeks.</p>
           <p>With a vision of activating the world, G3-Sports wants to inspire an active life for everyone.</p>
           <p>Join the movement!</p>
-
         </div>
       </div>
     </div>
-
     <!--/#aboutus-->
     <div>
       <br><br><br><br>
     </div>
-
     <!--contact us-->
     <div class="row">
       <div class="col-sm-8">
@@ -62,7 +66,6 @@
             </div>
             <div class="form-group col-md-12">
               <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit" />
-                         
             </div>
           </form>
         </div>
@@ -75,8 +78,6 @@
             <p>Phone: +46 7200001</p>
             <p>Email: info@g3-sports.com</p>
             <p>55 463, Stockholm Sweden.</p>
-
-
           </address>
           <div class="social-networks">
             <h2 class="title text-left">Social Networking</h2>
@@ -101,7 +102,6 @@
   </div>
 </div>
 <!--/#contact-page-->
-
 <!--Footer-->
 <footer id="footer">
   <div class="footer-top">
@@ -112,7 +112,6 @@
             <img src="static/images/home/map.png" alt="" />
             <p>Stockholm Sweden</p>
           </div>
-
         </div>
         <div class="col-md-4 pull-right">
           <div class="single-widget">
@@ -129,7 +128,4 @@
   </div>
 </footer>
 <!--/#Footer-->
-
-
-
 {% endblock content %}

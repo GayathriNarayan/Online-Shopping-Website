@@ -9,10 +9,10 @@
       <p class="card-text">Email : {{ user.email }}</p>
       <p class="card-text">Address : #</p>
 
-      <a href="{% url 'edit_profile' %}">
+      <a href="{% url 'onlineapp:edit_profile' %}">
         <button class="btn btn-default" type="submit" style="background-color:orange; border-color:orange; color:white; ">Edit Profile</button>
       </a>
-      <a href="{% url 'changepass' %}">
+      <a href="{% url 'onlineapp:changepass' %}">
         <input class="btn btn-default "type="button" value="Change Password" style="background-color:orange; border-color:orange; color:white;"/></a>
     </div>
   </div>

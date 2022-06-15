@@ -16,7 +16,7 @@
 {% endblock css %}
 
 {% block content %}
-<section>
+<section>    
     <div class="container">
         <div class="row">
             {% if products_f or products_m or all_products %}
@@ -28,11 +28,11 @@
                     <div class="panel-group category-products" id="accordian">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="women_checkbox" checked />
-                            <label class="form-check-label" for="women">WOMEN</label>
+                            <label class="form-check-label" for="women_checkbox">WOMEN</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="men_checkbox" checked />
-                            <label class="form-check-label" for="men">MEN</label>
+                            <label class="form-check-label" for="men_checkbox">MEN</label>
                         </div>
                     </div>
                 </div>
