@@ -102,10 +102,12 @@
 							<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
 							<li><a href="{% url 'onlineapp:user_orders' %}">My Orders</a></li>
 							<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
+							<li><a href="#"  style="justify-content:right; color: orange;">Welcome {{request.user.first_name}}</a></li>
 							{% elif user.is_authenticated %}
 							<li><a href="{% url 'onlineapp:profile' %}">My Profile</a></li>
 							<li><a href="{% url 'onlineapp:user_orders' %}">My Orders</a></li>
 							<li><a href="{% url 'onlineapp:user_logout' %}">Logout</a></li>
+							<li><a href="#"  style="justify-content:right; color: orange;">Welcome {{request.user.first_name}}</a></li>
 							{% else %}
 							<li><a href="{% url 'onlineapp:user_login' %}">Login</a></li>
 							<li><a href="{% url 'onlineapp:user_signup' %}">Sign up</a></li>

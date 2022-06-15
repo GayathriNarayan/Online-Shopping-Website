@@ -16,12 +16,12 @@
 {% endblock css %}
 
 {% block content %}
-<section>    
+<section>
     <div class="container">
         <div class="row">
             {% if products_f or products_m or all_products %}
             {% if products_f or products_m %}
-            <div class="col-sm-2">
+            <!-- <div class="col-sm-2">
                 <div class="left-sidebar">
                     <h2>Filter By</h2>
                     <h4>Gender</h4>
@@ -36,10 +36,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             {% endif %}
 
-            <div class="col-sm-10 padding-right">
+            <div class="col-sm-12 padding-right">
                 {% if products_f %}
                 <div id="women">
                     <div class="panel-heading text-center">
@@ -49,12 +49,12 @@
                     </div>
                     <div class="jacket">
                         {% for prod in products_f %}
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
                                         <div class="jacket-image">
-                                            <img src="{{prod.image.url}}">
+                                            <img src="{{prod.image.url}}" style="height: 245px;">
                                         </div>
                                         <h2>{{prod.price}} SEK</h2>
                                         <p>{{prod.name}}</p>
@@ -69,8 +69,8 @@
                 </div>
                 {% endif %}
             </div>
-                <div class="col-sm-12 padding-right">
-                {% if products_f %}
+            <div class="col-sm-12 padding-right">
+                {% if products_m %}
                 <div id="men">
                     <div class="panel-heading text-center">
                         <h2 class="title">
@@ -78,13 +78,13 @@
                         </h2>
                     </div>
                     <div class="jacket">
-                        {% for prod in products_f %}
-                        <div class="col-sm-4">
+                        {% for prod in products_m %}
+                        <div class="col-sm-3">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
                                         <div class="jacket-image">
-                                            <img src="{{prod.image.url}}">
+                                            <img src="{{prod.image.url}}" style="height: 240px;">
                                         </div>
                                         <h2>{{prod.price}} SEK</h2>
                                         <p>{{prod.name}}</p>
@@ -98,8 +98,8 @@
                     </div>
                 </div>
                 {% endif %}
-        </div>
-
+            </div>
+            <div class="col-sm-12 padding-right">
                 {% if all_products %}
                 <div id="allproducts">
                     <div class="panel-heading text-center">
@@ -109,16 +109,17 @@
                     </div>
                     <div class="jacket">
                         {% for prod in all_products %}
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
                                         <div class="jacket-image">
-                                            <img src="{{prod.image.url}}">
+                                            <img src="{{prod.image.url}}" style="height: 240px;">
                                         </div>
                                         <h2>{{prod.price}} SEK</h2>
                                         <p>{{prod.name}}</p>
-                                        <a href="{% url 'onlineapp:product_view' prod.id %}" class="btn btn-default add-to-cart">View this product</a>
+                                        <a href="{% url 'onlineapp:product_view' prod.id %}"
+                                            class="btn btn-default add-to-cart">View this product</a>
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +131,7 @@
             </div>
             {% else %}
             <div class="display">
-            
+
                 <div class="jumbotron">
                     <div class="text-center">
                         <!-- <p id="bg" style="background-image: url('{% static "images/product/bg-image.jpg"%}');"></p> -->
