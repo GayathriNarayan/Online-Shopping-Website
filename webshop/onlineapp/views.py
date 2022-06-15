@@ -1,4 +1,4 @@
-from onlineapp.models import Product,ProductSize,Product_Review
+from onlineapp.models import Product,ProductSize,Product_Review,ProductClassification
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout,authenticate
@@ -45,6 +45,7 @@ to be saved in database.
 '''
 
 def product_view(request, pid):
+  category = ProductClassification.objects.all()
   product =Product.objects.filter(id=pid).first()
   sizes = ProductSize.objects.filter(product=product)
   reviews = Product_Review.objects.filter(product=product).order_by('-datetime') [:5] 
@@ -58,7 +59,8 @@ def product_view(request, pid):
   return render(request, "onlineapp/product_view.html", {'product':product,
                                                          'sizes':sizes ,
                                                          'reviews':reviews,
-                                                         'media_url': MEDIA_URL})
+                                                         'media_url': MEDIA_URL,
+                                                         'category' : category})
 
   
 ####################################################################################
@@ -126,14 +128,43 @@ def search(request):
 #-----product list  -----Imran-----
  
 def home(request):
-  #category = ProductClassification.objects.all()
+  category = ProductClassification.objects.all()
   product = Product.objects.all()
+  categoryID = request.GET.get('category')
+
+  if categoryID:
+    product = Product.objects.filter(productclassification=categoryID)
+  else:
+    product = Product.objects.all()
   data_category = {
-   # 'category' : category,
+    'category' : category,
     'product' : product,
     'media_url': MEDIA_URL
   }
   return render(request,'onlineapp/home.html', data_category)
+
+
+############# Products List based on categories################
+def product_list(request, id):
+  category = ProductClassification.objects.all()
+
+  if Product.objects.filter(productclassification=id,gender__in=(Product.GENDER_F, Product.GENDER_M)).exists():
+    products_f = Product.objects.filter(productclassification=id,gender=Product.GENDER_F)
+    products_m = Product.objects.filter(productclassification=id,gender=Product.GENDER_M)
+    all_products = None
+  else:
+    all_products = Product.objects.filter(productclassification=id)
+    products_f = None
+    products_m = None
+
+  data_category = {
+    'all_products':all_products,
+    'products_f':products_f, 
+    'products_m':products_m,
+    'media_url': MEDIA_URL,
+    'category' : category,
+  }
+  return render(request,'onlineapp/product_list.html', data_category)
 
   #---------- Profile-----------#
 

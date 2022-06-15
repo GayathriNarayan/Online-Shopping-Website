@@ -30,7 +30,8 @@ urlpatterns = [
     path('payment_cancelled/<int:id>/', views.payment_cancelled, name='payment_cancelled'),
     path('profile/', views.profile, name="profile"),
 #     path('about/', views.about, name="about"), 
-    path('about/', views.contactus, name="about"),     
+    path('about/', views.contactus, name="about"),
+    path('product_list/<int:id>/', views.product_list,name='product_list'),     
    ]
 
 if settings.DEBUG:
