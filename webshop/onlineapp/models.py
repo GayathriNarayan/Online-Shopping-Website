@@ -149,3 +149,12 @@ class Product_Review(models.Model):
  
     def __str__(self):
         return '{} {}'.format(self.customer,self.content)
+
+#-----Contact Us-----
+class Contactus(models.Model):
+    name = models.CharField(max_length=150)
+    email = models.EmailField(150)
+    subject = models.CharField(max_length=150)
+    message = models.TextField()
+    def __str__(self):
+        return self.email        

@@ -3,7 +3,7 @@ from onlineapp.models import CustomerInfo
 from onlineapp.models import ProductClassification,Product,Size,ProductSize
 from onlineapp.models import Order,OrderDetail
 from onlineapp.models import Product_Review
-
+from onlineapp.models import Contactus
 #Customer details
 admin.site.register(CustomerInfo)
 
@@ -17,3 +17,6 @@ admin.site.register(Product_Review)
 #Order and Order details
 admin.site.register(Order)
 admin.site.register(OrderDetail)
+
+#--- contact us
+admin.site.register(Contactus)
