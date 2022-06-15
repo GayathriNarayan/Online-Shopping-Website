@@ -3,7 +3,17 @@
 
 
 {% block title %} {{ProductClassification.name}} {% endblock title %}
-{% block css %} {% endblock css %}
+{% block css %}
+<!-- <style>
+    #bg {
+        background-repeat: no-repeat;
+        background-size: 1800px 900px;
+        background-position: top;
+        background-attachment: fixed;
+    }
+</style> -->
+
+{% endblock css %}
 
 {% block content %}
 <section>    
@@ -39,7 +49,7 @@
                     </div>
                     <div class="jacket">
                         {% for prod in products_f %}
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
@@ -58,8 +68,9 @@
                     </div>
                 </div>
                 {% endif %}
-
-                {% if products_m %}
+            </div>
+                <div class="col-sm-12 padding-right">
+                {% if products_f %}
                 <div id="men">
                     <div class="panel-heading text-center">
                         <h2 class="title">
@@ -67,8 +78,8 @@
                         </h2>
                     </div>
                     <div class="jacket">
-                        {% for prod in products_m %}
-                        <div class="col-sm-3">
+                        {% for prod in products_f %}
+                        <div class="col-sm-4">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
@@ -87,6 +98,7 @@
                     </div>
                 </div>
                 {% endif %}
+        </div>
 
                 {% if all_products %}
                 <div id="allproducts">
@@ -97,7 +109,7 @@
                     </div>
                     <div class="jacket">
                         {% for prod in all_products %}
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
@@ -106,7 +118,7 @@
                                         </div>
                                         <h2>{{prod.price}} SEK</h2>
                                         <p>{{prod.name}}</p>
-                                        <a href="#" class="btn btn-default add-to-cart">View this product</a>
+                                        <a href="{% url 'onlineapp:product_view' prod.id %}" class="btn btn-default add-to-cart">View this product</a>
                                     </div>
                                 </div>
                             </div>
@@ -117,15 +129,19 @@
                 {% endif %}
             </div>
             {% else %}
-
-            <div class="jumbotron">
-                <div class="text-center">
-                    <h3 style="color:orange"><strong>Coming Soon!!!</strong></h3>
-                </div>  
+            <div class="display">
+            
+                <div class="jumbotron">
+                    <div class="text-center">
+                        <!-- <p id="bg" style="background-image: url('{% static "images/product/bg-image.jpg"%}');"></p> -->
+                        <h3 style="color:orange">COMING SOON!!!</h3>
+                    </div>
+                </div>
             </div>
-
-            {% endif %}
         </div>
+
+        {% endif %}
+    </div>
     </div>
 </section>
 
