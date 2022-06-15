@@ -32,6 +32,8 @@ urlpatterns = [
 #     path('about/', views.about, name="about"), 
     path('about/', views.contactus, name="about"),
     path('product_list/<int:id>/', views.product_list,name='product_list'),     
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('changepass/', views.changepass, name='changepass'),    
    ]
 
 if settings.DEBUG:

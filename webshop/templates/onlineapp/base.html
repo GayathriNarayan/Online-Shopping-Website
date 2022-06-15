@@ -50,7 +50,12 @@
 				<div class="col-sm-8">
 					<div class="shop-menu pull-right">
 						<ul class="nav navbar-nav">
-							<li><a href="{% url 'onlineapp:cart_detail' %}"><i class="fa fa-shopping-cart"></i></a></li>
+							<li>
+								<a href="{% url 'onlineapp:cart_detail' %}">
+									<i class="fa fa-shopping-cart"></i>
+									Total cart : {{request.session.cart|length}}
+								</a>
+							</li>
 							<div class="col-sm-4">
 								<div class="search_box">
 									<form action="/search" method="get">
