@@ -29,8 +29,8 @@ urlpatterns = [
     path('payment_done/<int:id>/', views.payment_done, name='payment_done'),
     path('payment_cancelled/<int:id>/', views.payment_cancelled, name='payment_cancelled'),
     path('profile/', views.profile, name="profile"),
-    path('about/', views.about, name="about"), 
-    
+#     path('about/', views.about, name="about"), 
+    path('about/', views.contactus, name="about"),     
    ]
 
 if settings.DEBUG:

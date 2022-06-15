@@ -18,7 +18,7 @@ from onlineapp.forms import UserForm, LoginForm, EditUserProfileForm
 from onlineapp.forms import LoginForm
 from django.contrib.auth.models import User
 from cart.cart import Cart	
-from onlineapp.models import Order,OrderDetail	
+from onlineapp.models import Order,OrderDetail,Contactus	
 from django.conf import settings
 from paypal.standard.forms import PayPalPaymentsForm		
 from django.views.decorators.csrf import csrf_exempt
@@ -175,8 +175,8 @@ def changepass(request):
     
  return render(request, 'onlineapp/changepass.html', {'form':pwd})
 
-def about(request):
-    return render(request, 'onlineapp/about.html')
+# def about(request):
+#     return render(request, 'onlineapp/about.html')
 
 #---- Send Email ------
 #######################sending email #############################
@@ -187,11 +187,27 @@ import smtplib
 
 
 def send_welcome_email(request, sended_email):
-    subject = 'Welcome Message from G3-Store'
-    message = "Your registeration is complete, you can browse more items and shop"
-    from_email=settings.EMAIL_HOST_USER
-    send_mail(subject, message, from_email,[sended_email],auth_user= settings.EMAIL_HOST_USER, fail_silently=False,
-    html_message="html><body><table style='font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;'><tr><td style ='border: 1px solid #ddd;padding: 8px;'>Welcome "+ sended_email +" you can browse more items using " +settings.HOME_LINK +"</td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'>To login " +settings.LOGIN_LINK +" </td></tr><tr><td style ='border: 1px solid #ddd;padding: 8px;'> To change your password, link to  "+settings.CHANGE_PASS_LINK +"</td></tr></table></body></html>")
+  subject = 'Welcome Message from G3-Store'
+  message = "Your registeration is complete, you can browse more items and shop"
+  from_email=settings.EMAIL_HOST_USER
+  html_message="""<html>
+  <body>
+      <table style='font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;'>
+        <tr>
+          <td style ='border: 1px solid #ddd;padding: 8px;'>Welcome {str1} , to browse more items <a href='{str2}'>Click Here</a> </td>
+        </tr>
+        <tr>
+          <td style ='border: 1px solid #ddd;padding: 8px;'><a href='{str3}'>To login</a></td>
+        </tr>
+        <tr>
+          <td style ='border: 1px solid #ddd;padding: 8px;'> To change your password, link to  <a href='{str4}'>Change Password</a> </td>
+        </tr>
+      </table>
+    </body>
+  </html>""".format(str1=sended_email, str2="http://127.0.0.1:8000/",str3="http://127.0.0.1:8000/onlineapp/login",str4="http://127.0.0.1:8000/changepass")
+  print(html_message)
+  send_mail(subject, message, from_email,[sended_email],auth_user= settings.EMAIL_HOST_USER, fail_silently=False,
+    html_message=html_message)
 
 @login_required(login_url="/onlineapp/login")
 def cart_add(request, id):
@@ -338,3 +354,17 @@ def payment_cancelled(request,id):
   for PayPal
   '''
   return render(request, 'onlineapp/payment-fail.html')
+
+def contactus(request):
+  print('contactus')
+  if request.method == 'POST':
+    print('here inside post')
+    contact = Contactus(
+      name = request.POST.get('name'),
+      email = request.POST.get('email'),
+      subject = request.POST.get('subject'),
+      message = request.POST.get('message'),
+    )
+    contact.save()
+    messages.success(request, 'We have received your message. We try to reply within 24 hours.')
+  return render(request, 'onlineapp/about.html')
